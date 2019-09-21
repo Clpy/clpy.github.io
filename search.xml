@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[B-树和B+树]]></title>
+    <url>%2F2019%2F09%2F21%2FB-%E6%A0%91%E5%92%8CB%2B%E6%A0%91%2F</url>
+    <content type="text"><![CDATA[简介B树（B-tree）是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(log n)的时间复杂度运行进行查找、顺序读取、插入和删除的数据结构。 B树，概括来说是一个节点可以拥有多于2个子节点的二叉查找树。与自平衡二叉查找树不同，B-树为系统最优化大块数据的读和写操作。 B-tree算法减少定位记录时所经历的中间过程，从而加快存取速度。普遍运用在数据库和文件系统。” B+树是对B树的一种变形树。区别在于，B+树的非叶子结点只包含导航信息，不包含实际的值，所有的叶子结点和相连的节点使用链表相连，便于区间查找和遍历。 B树和B+广泛应用于文件存储系统以及数据库系统中。如： Windows：HPFS文件系统 Mac：HFS，HFS+文件系统 Linux：ResiserFS，XFS，Ext3FS，JFS文件系统 数据库：ORACLE，MYSQL，SQLSERVER等中 B- 树定义： B树也称B-树,它是一颗多路平衡查找树。 我们描述一颗B树时需要指定它的阶数，阶数表示了一个结点最多有多少个孩子结点，一般用字母m表示阶数。当m取2时，就是我们常见的二叉搜索树。 M 阶B 树定义 非叶子节点最多只有 M 个叶子节点 根节点的子节点数 为 [2，M] 非根节点的非叶子节点的叶子节点树为[M/2,M] 每个节点存放 [ [M/2 - 1], [M-1] ] 个关键字（向上取整），（根节点最少可以只有一个关键字） 关键字都按照从小到大的顺序排列 非叶子节点的关键字个数 = 指向子节点的指针个数-1 所有叶子节点位于同一层 B 树的插入 新插入的节点总是出现在叶子节点。 根据插入的key值找到叶子节点并插入。 判断当前节点 key 的个数 是否小于等于 M-1 若满足 则结束 ，不满足进行下一步。 以节点中间key 为中心分裂为两部分，然后将这个中间的key 插入到父节点当中 ，左子树指向分裂的左半部分 右子树指向分裂后的右半部分，然后将当前结点指向父结点。 B 树的删除 删除节点在叶子节点上，且删除后叶子节点满足B树的要求，则删除结束。 删除节点在非叶子节点上，就使用后继key(当前节点的下一个key) 覆盖要删除的key , 然后删除所在子支中的后继key。删除后满足b树要求，结束，否则执行下一步。 删除节点key个数 小于[M/2-1] , 则父节点中的key 下移到该节点，兄弟节点中的一个key 上移，删除操作结束。 否则，将父节点中的key 下移与当前节点及他的兄弟节点中的key合并，形成一个新的节点。当前节点的指针指向父节点。 B+ 树定义：与B 树区别在于： 非叶子节点的子树指针和关键字的个数相同； B+ 树的插入 若为空树， 创建一个叶子节点，插入记录，本次插入操作结束 针对叶子节点，根据key值找到叶子节点，向这个叶子节点插入记录。若当前key个数小于等于 M-1 ，则插入结束。否则将这个叶子节点分裂成左右两个叶子节点，左叶子节点包含前M/2 个记录，右节点包含剩下的记录，将第 M/(2+1) 个记录的 key 进位到父结点中（父节点一定是索引类型节点），进位到父节点的key左孩子指针指向左结点，右孩子指针指向右结点，将当前结点的指针指向父节点。 针对索引类型节点：若当前节点的key 个数 ≤ (M-1) 则插入结束。否则，将这个索引类型结点分裂成两个索引结点，左索引结点包含前 (m-1)/2 个key，右结点包含 m-(m-1)/2 个key，将第m/2个key进位到父结点中，进位到父结点的key左孩子指向左结点, 进位到父结点的key右孩子指向右结点。将当前结点的指针指向父结点，然后重复第3步 B+ 树的删除 如果叶子结点中没有相应的key，则删除失败。否则执行下面的步骤 删除叶子结点中对应的key。删除后若结点的key的个数大于等于Math.ceil(m-1)/2 – 1，删除操作结束,否则执行第2步。 若兄弟结点key有富余（大于Math.ceil(m-1)/2 – 1），向兄弟结点借一个记录，同时用借到的key替换父结（指当前结点和兄弟结点共同的父结点）点中的key，删除结束。否则执行第3步。 若兄弟结点中没有富余的key,则当前结点和兄弟结点合并成一个新的叶子结点，并删除父结点中的key（父结点中的这个key两边的孩子指针就变成了一个指针，正好指向这个新的叶子结点），将当前结点指向父结点（必为索引结点），执行第4步（第4步以后的操作和B树就完全一样了，主要是为了更新索引结点）。 若索引结点的key的个数大于等于Math.ceil(m-1)/2 – 1，则删除操作结束。否则执行第5步 若兄弟结点有富余，父结点key下移，兄弟结点key上移，删除结束。否则执行第6步 当前结点和兄弟结点及父结点下移key合并成一个新的结点。将当前结点指向父结点，重复第4步。 注意，通过B+树的删除操作后，索引结点中存在的key，不一定在叶子结点中存在对应的记录。 参考链接]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[python解析式]]></title>
+    <url>%2F2019%2F04%2F11%2Fpython%E8%A7%A3%E6%9E%90%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[列表解析式是将一个列表（实际上适用于任何可迭代对象（iterable））转换成另一个列表的工具。在转换过程中，可以指定元素必须符合一定的条件，才能添加至新的列表中，这样每个元素都可以按需要进行转换。 每个列表解析式都可以重写为for循环，但不是每个for循环都能重写为列表解析式。 一、解析式介绍推导式：Comprehensions(又称解析式)。共有三种推导[a.列表解析 b.字典解析 c.集合解析]这三种都是python里面的语法糖(Syntactic Sugar)。 二、列表解析式列表解析的一般形式： [expression for item in iterable] # [表达式 for 元素 可迭代对象] 示例：1234567891011121314&gt;&gt;&gt; [2 ** n for n in range(10)][1, 2, 4, 8, 16, 32, 64, 128, 256, 512]&gt;&gt;&gt; def inc(x):4return x + 1&gt;&gt;&gt; [inc(x) for x in range(10)][1, 2, 3, 4, 5, 6, 7, 8, 9, 10]&gt;&gt;&gt; [0 for x in range(10)][0, 0, 0, 0, 0, 0, 0, 0, 0, 0]&gt;&gt;&gt; def non_return(x):4pass&gt;&gt;&gt; [non_return(x) for x in range(10)][None, None, None, None, None, None, None, None, None, None] 列表解析式返回的结果就是列表，列表的内容是表达式执行的结果。 1234567&gt;&gt;&gt; [x for x in range(10) if x % 2 == 0][0, 2, 4, 6, 8]# 上边的语句等效于ret = []for x in range(10): if x % 2 == 0: ret.append(x) 可以用python的timeit 来测试两种方式的执行效率。会发现列表解析的执行效率会好。123456789101112131415import timeitlist = []def fun():4for i in range(100):44if i%2 == 0:444list.append(i)n = 1000000if __name__ == '__main__':4print(timeit.timeit(stmt=fun, number=n))4print(timeit.timeit(stmt="[x for x in range(100) if x%2 == 0]",number = n))# 输出结果22.62074761305501612.893759290163143[Finished in 37.0s] 如果列表解析式中有if关键字呢：123456[expression for item in iterable if condition] # [表达式 for 元素 in 可迭代对象 if 条件语句]# 等价于ret = []for item in iterable:if condition: ret.append(exper) 以上介绍的只带了一个if关键字，如果有多个if关键字呢：1234567[experessi on for item in iterable if condition1 if condition2]# 等价于ret = []for item in iterable: if condition1: if condition2: ret.append(experession) 针对上面来个例子：123456789101112131415161718192021222324252627[x for x in range(10) if x % 2 == 0 if x &gt; 1][2, 4, 6, 8] # 再来个例子&gt;&gt;&gt; [x for x in lst if len(x) &gt; 1 and x.pop(0) % 2 == 0][[1], [3]] # 不但可以有多个if关键字，还可以有多个for关键字，也就是嵌套循环&gt;&gt;&gt; [(x, y) for x in range(3) for y in range(3)][(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)] # 写成一个公式类的写法为：[expr for item1 in iterable1 for item2 in iterable2]# 等价于for item1 in iterable1: for item2 in iterable2: for y in range(10): ret.append((x,y))# 如果要在列表解析式中处理嵌套循环，请记住for循环子句的顺序与我们原来for循环的顺序是一致的。# 所以可以实现一句话打印出九九乘法表print('\n'.join([' '.join(['%s*%s=%s' % (y,x,x*y) for y in range(1,x+1)]) for x in range(1,10)]))# 这个乘法表列表解析式 读起来很困难，python支持在括号和花括号之间断行。print('\n'.join([' '.join([ '%s*%s=%s' % (y,x,x*y) for y in range(1,x+1)]) for x in range(1,10)])) 那么for与if都有呢？多个for语句相当于逐层for嵌套。12345678&gt;&gt;&gt; [(x, y) for x in range(5) for y in range(5) if (x+y)%2==0][(0, 0), (0, 2), (0, 4), (1, 1), (1, 3), (2, 0), (2, 2), (2, 4), (3, 1), (3, 3), (4, 0), (4, 2), (4, 4)] # 等价于list = []for x in range(10): if x % 2 == 0: for y in range(10): ret.append((x,y)) 如果for关键字不在第一个位置，会不会出现问题？12&gt;&gt;&gt; [x if True for x in range(10)]SyntaxError: invalid syntax 因此，for关键字要写在前面，后面可以用for或if进行嵌套 多看几个例子：12345&gt;&gt;&gt; [(x+1, x+2) for x in range(5)][(1, 2), (2, 3), (3, 4), (4, 5), (5, 6)] &gt;&gt;&gt; [&#123;x+1:x+2&#125; for x in range(5)][&#123;1: 2&#125;, &#123;2: 3&#125;, &#123;3: 4&#125;, &#123;4: 5&#125;, &#123;5: 6&#125;] 列表解析可用于可迭代对象做过滤和转换，返回值是列表。12345678help(filter)filter(lambda x: x % 2 == 0, range(10))list(filter(lambda x: x % 2 == 0, range(10)))help(map)list(map(lambda x: x+1, range(10)))[x+1 for x in range(10)]# Python里，可以不用filter及map函数，使用列表解析式可以秒杀filter及map# 上面的话并不是绝对的，当数据比较大时，使用filter及map将会比列表解析式快 12345678在Python中，lambda的语法是唯一的。其形式如下：lambda argument_list: expression其中，lambda是Python预留的关键字，argument_list和expression由用户自定义。这里的argument_list是参数列表。它的结构与Python中函数(function)的参数列表是一样的。 例如：lambda x, y: xy； #函数输入是x和y，输出是它们的积xylambda:None； #函数没有输入参数，输出是Nonelambda *args: sum(args); #输入是任意个数的参数，输出是它们的和(隐性要求是输入参数必须能够进行加法运算)lambda **kwages: 1; #输入是任意键值对参数， 输出是1 再来看一个例子，偶数求平方，奇数求立方。123&gt;&gt;&gt; lst = list(range(10))&gt;&gt;&gt; [x ** 2 if x % 2 == 0 else x ** 3 for x in lst][0, 1, 4, 27, 16, 125, 36, 343, 64, 729] 总结上述代码：1x if condition else y # 当条件满足时返回x,当条件不满足时返回y。 三、字典解析式 字典解析也需要一个大括号，并且要有两个表达式：一个生成key，一个生成value；两个表达式之间使用冒号分隔，返回结果是字典。示例：12&gt;&gt;&gt; print(&#123;str(x):x for x in range(10)&#125;)&#123;'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9&#125; 看一个例子：12345678&gt;&gt;&gt; &#123;str(x):y for x in range(3) for y in range(4)&#125; # 取决于短的那个&#123;'0': 3, '1': 3, '2': 3&#125;# 等价于ret = &#123;&#125;for x in range(3): for y in range(4): ret[str(x)] = yprint(ret) 四、集合解析式 集合解析把列表解析的中括号变成大括号，返回集合。1234567891011121314&gt;&gt;&gt; &#123;str(x):y for x in range(3) for y in range(4)&#125; &#123;'0': 3, '1': 3, '2': 3&#125;&gt;&gt;&gt; &#123;x for x in range(10)&#125;&#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;&gt;&gt;&gt; set01 = &#123;x for x in range(10)&#125; &gt;&gt;&gt; set01 &#123;0, 1, 2, 3, 4, 5, 6, 7, 8, 9&#125;&gt;&gt;&gt; type(set01) &lt;class 'set'&gt;` 参考链接]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[有效的括号]]></title>
+    <url>%2F2019%2F04%2F07%2F%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7%2F</url>
+    <content type="text"><![CDATA[20有效的括号 题目描述：给定一个只包括 ‘(‘，’)’，’{‘，’}’，’[‘，’]’ 的字符串，判断字符串是否有效。有效字符串需满足：左括号必须用相同类型的右括号闭合。左括号必须以正确的顺序闭合注意空字符串可被认为是有效字符串。* 123456789101112131415161718192021222324252627282930313233class Solution: def isValid(self, s): """ :type s: str :rtype: bool """ # 排除必错的逻辑 if len(s)==1 and (s==')' or s=='&#125;' or s==']'): return False L=[] for i in s: if i == '(' or i == '&#123;' or i == '[': L.append(i) continue if (i==')' or i=='&#125;' or i==']') and L: temp=L.pop() if i==')' and temp!='(': return False if i=='&#125;' and temp!='&#123;': return False if i==']' and temp!='[': return False continue if (i == ')' or i == '&#125;' or i == ']') and not L: return False if L: return False else: return True 大佬的方案1234567class Solution: def isValid(self, s): while '&#123;&#125;' in s or '()' in s or '[]' in s: s = s.replace('&#123;&#125;', '') s = s.replace('[]', '') s = s.replace('()', '') return s == '']]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[字符串解码]]></title>
+    <url>%2F2019%2F04%2F05%2F%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%A7%A3%E7%A0%81%2F</url>
+    <content type="text"><![CDATA[394.字符串解码 题目描述：给定一个经过编码的字符串，返回它解码后的字符串。编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。 1234567891011121314151617181920212223242526272829"""这个题吧，一开始想着以为用递归，一直递归不出来。看了别人的，发现用栈好点"""class Solution(object): def decodeString(self, s): """ :type s: str :rtype: str """ stack = [] curNum = 0 curString = '' for c in s: if c == '[': stack.append(curString) stack.append(curNum) curString = '' curNum = 0 elif c == ']': num = stack.pop() prevString = stack.pop() curString = prevString + num*curString elif c.isdigit(): curNum = curNum*10 + int(c) else: curString += c return curString]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[最小栈]]></title>
+    <url>%2F2019%2F04%2F04%2F%E6%9C%80%E5%B0%8F%E6%A0%88%2F</url>
+    <content type="text"><![CDATA[最小栈 题目描述：设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。push(x) – 将元素 x 推入栈中。pop() – 删除栈顶的元素。top() – 获取栈顶元素。getMin() – 检索栈中的最小元素。思路：入栈时靠辅助栈记住主栈元素中最小的，出栈时一直pop主栈元素直到辅助栈栈顶元素出现。123456789101112131415161718192021222324252627282930313233class MinStack(object): def __init__(self): # 初始化你的数据结构 self.stack = [] def push(self, x): if x is None: pass else: self.stack.append(x) def pop(self): # 首先判断列表是否为空 if self.stack is None: return 'None' else: self.stack.pop(-1) def top(self): if self.stack is None: return 'None' else: return self.stack[-1] def getMin(self): if self.stack is None: return 'None' else: return min(self.stack)]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二叉树的遍历]]></title>
+    <url>%2F2019%2F04%2F02%2F%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%2F</url>
+    <content type="text"><![CDATA[二叉树的前序遍历 思路： 使用列表保存结果； 使用栈（列表实现）存储结点； 当根结点存在，保存结果，根结点入栈； 将根结点指向左子树； 根结点不存在，栈顶元素出栈，并将根结点指向栈顶元素的右子树； 重复步骤3-6，直到栈空。 1234567891011121314151617181920212223242526# Definition for a binary tree node.# class TreeNode:# def __init__(self, x):# self.val = x# self.left = None# self.right = Noneclass Solution:4def preorderTraversal(self, root: TreeNode) -&gt; List[int]: stack = [] # 非递归前序遍历，需要借助栈(列表) res = [] # 输出 # 树为空 if root == None: return res # 树不为空，将根节点压入栈中，然后循环 stack.append(root) # 循环 while stack: top = stack.pop() # 孩子结点不为空，将孩子结点压入栈，一定是先压右孩子再压左孩子 if top.right != None: stack.append(top.right) if top.left !=None: stack.append(top.left) res.append(top.val) return res 二叉树的中序遍历]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+        <tag>tree</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[棒球比赛]]></title>
+    <url>%2F2019%2F04%2F01%2F%E6%A3%92%E7%90%83%E6%AF%94%E8%B5%9B%2F</url>
+    <content type="text"><![CDATA[682.棒球比赛 题目描述：你现在是棒球比赛记录员。给定一个字符串列表，每个字符串可以是以下四种类型之一： 1.整数（一轮的得分）：直接表示您在本轮中获得的积分数。 2.”+”（一轮的得分）：表示本轮获得的得分是前两轮有效 回合得分的总和。 3.”D”（一轮的得分）：表示本轮获得的得分是前一轮有效 回合得分的两倍。 4.”C”（一个操作，这不是一个回合的分数）：表示您获得的最后一个有效 回合的分数是无效的，应该被移除。每一轮的操作都是永久性的，可能会对前一轮和后一轮产生影响。你需要返回你在所有回合中得分的总和。 12345678910111213141516171819202122232425class Solution:4'''处理数据时保持栈上每个回合的有效值 '''4def calPoints(self, ops):44stack = [] # 声明一个空栈44for x in ops:444if x == '+':4444stack.append(stack[-1] + stack[-2])444elif x == 'C':4444stack.pop()444elif x == 'D':4444stack.append(2 * stack[-1])444else:4444stack.append(int(x))44# 返回栈中值的和44return sum(stack)# 测试一下if __name__ == '__main__':4test_list = ["5","-2","4","C","D","9","+","+"]4test = Solution()4result = test.calPoints(test_list)4print(result)# 结果 27]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[用栈实现队列]]></title>
+    <url>%2F2019%2F03%2F31%2F%E7%94%A8%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97%2F</url>
+    <content type="text"><![CDATA[232.用栈实现队列 题目描述： 使用栈实现队列的下列操作： push(x) -- 将一个元素放入队列的尾部。 pop() -- 从队列首部移除元素。 peek() -- 返回队列首部的元素。 empty() -- 返回队列是否为空。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859class MyQueue: ''' 使用list 来模拟栈 两个堆栈input和output模拟队列，output栈必须清空才可以添加input中的值 入队列：向input 中压入元素 出队列：input队列元素依次弹出堆栈，并压入output中，最后弹出output的栈顶元素 ''' def __init__(self): # 初始化数据结构. self.input = [] self.output = [] def push(self, x): # 入队.将元素放入input 中 self.input.append(x) def pop(self): # 从队列前面删除元素并返回该元素. # 首先判断output栈是否为空，不为空则直接弹出 if self.output: return self.output.pop() # 为空则将input 中的数据全部放到output中 else: while self.input: self.output.append(self.input.pop()) return self.output.pop() def peek(self): # 获取前面的元素. while not self.output: while self.input: self.output.append(self.input.pop()) return self.output[-1] def empty(self): # 返回队列是否为空 if self.input or self.output: return False return True# 可以测试一下if __name__ == '__main__': test_list = list(range(5)) # 生成一个列表 test_MyQueue = MyQueue() # 入队 for i in range(5): test_MyQueue.push(test_list[i]) print(test_list) # 出队 for i in range(5): print(test_MyQueue.pop(),',',end='')"""输出结果[0, 1, 2, 3, 4]0 ,1 ,2 ,3 ,4 ,[Finished in 0.4s]"""]]></content>
+      <categories>
+        <category>leecode</category>
+      </categories>
+      <tags>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tcp_ip_2]]></title>
+    <url>%2F2019%2F03%2F06%2Ftcp_ip_2%2F</url>
+    <content type="text"><![CDATA[socket简介1. 不同电脑上的进程之间如何通信首要解决的问题是如何唯一标识一个进程，否则通信无从谈起！ 在1台电脑上可以通过进程号（PID）来唯一标识一个进程，但是在网络中这是行不通的。 其实TCP/IP协议族已经帮我们解决了这个问题，网络层的“ip地址”可以唯一标识网络中的主机，而传输层的“协议+端口”可以唯一标识主机中的应用进程（进程）。 这样利用ip地址，协议，端口就可以标识网络的进程了，网络中的进程通信就可以利用这个标志与其它进程进行交互 注意： 所谓进程指的是：运行的程序以及运行时用到的资源这个整体称之为进程 所谓进程间通信指的是：运行的程序之间的数据共享 2. 什么是socketsocket(简称 套接字) 是进程间通信的一种方式，socket是一个抽象层，它把TCP/IP层复杂的操作抽象为几个简单的接口供应用层调用已实现进程在网络中通信。 socket起源于UNIX，在Unix一切皆文件思想下，socket是一种”打开—读/写—关闭”模式的实现，服务器和客户端各自维护一个”文件”，在建立连接打开后，可以向自己文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。 它能实现不同主机间的进程间通信，我们网络上各种各样的服务大多都是基于 Socket 来完成通信的 例如我们每天浏览网页、QQ 聊天、收发 email 等等。 socket 通信流程： socket是”打开—读/写—关闭”模式的实现，以使用TCP协议通讯的socket为例，其交互流程大概是这样子的： 服务器根据地址类型（ipv4,ipv6）、socket类型、协议创建socket 服务器为socket绑定ip地址和端口号 服务器socket监听端口号请求，随时准备接收客户端发来的连接，这时候服务器的socket并没有被打开 客户端创建socket 客户端打开socket，根据服务器ip地址和端口号试图连接服务器socket 服务器socket接收到客户端socket请求，被动打开，开始接收客户端请求，直到客户端返回连接信息。这时候socket进入阻塞状态，所谓阻塞即accept()方法一直到客户端返回连接信息后才返回，开始接收下一个客户端谅解请求 客户端连接成功，向服务器发送连接状态信息 服务器accept方法返回，连接成功 客户端向socket写入信息 服务器读取信息 客户端关闭 服务器端关闭 3. 创建socket在 Python 中 使用socket 模块的函数 socket 就可以完成： 12import socketsocket.socket(AddressFamily, Type) 说明：函数 socket.socket 创建一个 socket，该函数带有两个参数： Address Family：可以选择 AF_INET（用于 Internet 进程间通信） 或者 AF_UNIX（用于同一台机器进程间通信）,实际工作中常用AF_INET Type：套接字类型，可以是 SOCK_STREAM（流式套接字，主要用于 TCP 协议）或者 SOCK_DGRAM（数据报套接字，主要用于 UDP 协议） 创建一个tcp socket（tcp套接字） 123456789import socket# 创建tcp的套接字s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)# ...这里是使用套接字的功能（省略）...# 不用的时候，关闭套接字s.close() 创建一个udp socket（udp套接字） 123456789import socket# 创建udp的套接字s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)# ...这里是使用套接字的功能（省略）...# 不用的时候，关闭套接字s.close() 说明 套接字使用流程 与 文件的使用流程很类似 创建套接字 使用套接字收/发数据 关闭套接字]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[对python中的self的理解]]></title>
+    <url>%2F2019%2F03%2F04%2Fpython-%E5%AF%B9python%E4%B8%AD%E7%9A%84self%E7%9A%84%E7%90%86%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[编写类时，每个函数参数第一个参数都是self，调用时又不需要 self指向类的实例化对象，而非类。 实例来说明 12345678class Test: def this(self): print(self) print(self.__class__)t = Test()t.this()Test.this(t) 执行结果如下 123&lt;__main__.Test object at 0x000000000284E080&gt;&lt;class '__main__.Test'&gt;&lt;class '__main__.Test'&gt; 从上面的例子中可以很明显的看出，self代表的是类的实例。而self.__class__​则指向类。 在Python的解释器内部，当我们调用t.prt()时，实际上Python解释成Test.this(t)，也就是说把self替换成类的实例。 self不必非写成self 这个参数不必非得写为self,我们可以写 abc, this等。 1234567class Test: def prt(abc): print(abc) print(abc.__class__)t = Test()t.prt() 改成abc后，运行结果和self是一样的。 self可以不写吗 self在定义时不可以省略，可以试一下，忽略的时候： 123456class Test: def prt(): print(self)t = Test()t.prt() 运行时提醒错误如下：prt在定义时没有参数，但是我们运行时强行传了一个参数。由于上面解释过了t.prt()等同于Test.prt(t)，所以程序提醒我们多传了一个参数t。 1234Traceback (most recent call last): File "h.py", line 6, in &lt;module&gt; t.prt()TypeError: prt() takes 0 positional arguments but 1 was given 当我们的定义和调用时均不传类实例是可以的，这就是类方法。 1234class Test: def prt(): print(__class__)Test.prt() 运行结果如下 1&lt;class '__main__.Test'&gt; 继承时，传入的是哪个实例，就那个传入的实例，而不是指定义了self的类的实例。 先看代码 123456789101112class Parent: def pprt(self): print(self)class Child(Parent): def cprt(self): print(self)c = Child()c.cprt() # &lt;__main__.Child object at 0x00E289F0&gt;c.pprt() # &lt;__main__.Child object at 0x00E289F0&gt;p = Parent()p.pprt() # &lt;__main__.Parent object at 0x00E28B50&gt; 从上边的代码可以看出c.cprt() 和 c.pprt() 运行结构一样：运行c.cprt()时应该没有理解问题，指的是Child类的实例。但是在运行c.pprt()时，等同于Child.pprt(c)，所以self指的依然是Child类的实例，由于self中没有定义pprt()方法，所以沿着继承树往上找，发现在父类Parent中定义了pprt()方法，所以就会成功调用。 在描述符类中，self指的是描述符类的实例 不太容易理解，先看实例： 123456789101112131415class Desc: def __get__(self, ins, cls): print('self in Desc: %s ' % self ) print(self, ins, cls)class Test: x = Desc() def prt(self): print('self in Test: %s' % self)t = Test()print("t.prt()输出结果"+"-"*50)t.prt()print("t.x输出结果"+"-"*50)t.xprint("Test.x输出结果"+"-"*50)Test.x 运行结果如下： 12345678t.prt()输出结果------------------------------------self in Test: &lt;__main__.Test object at 0x00ED8B90&gt;t.x输出结果-----------------------------------------self in Desc: &lt;__main__.Desc object at 0x00ED8A90&gt; &lt;__main__.Desc object at 0x00ED8A90&gt; &lt;__main__.Test object at 0x00ED8B90&gt; &lt;class '__main__.Test'&gt;Test.x输出结果--------------------------------------self in Desc: &lt;__main__.Desc object at 0x00ED8A90&gt; &lt;__main__.Desc object at 0x00ED8A90&gt; None &lt;class '__main__.Test'&gt; 为什么在Desc类中定义的self不是应该是调用它的实例t吗？怎么变成了Desc类的实例了呢？注意：此处需要睁大眼睛看清楚了，这里调用的是t.x，也就是说是Test类的实例t的属性x，由于实例t中并没有定义属性x，所以找到了类属性x，而该属性是描述符属性，为Desc类的实例而已，所以此处并没有顶用Test的任何方法。 我们们如果直接通过类来调用属性x也可以得到相同的结果。 总结 self在定义时需要定义，但是在调用时会自动传入。 self的名字并不是规定死的，但是最好还是按照约定是用self self总是指调用时的类的实例。 由 哪一个对象 调用的方法，方法内的self就是哪一个对象的引用 在类封装的方法内部，self 就表示 当前调用方法的对象自己 在 类的外部，通过 变量名. 访问对象的 属性和方法 在 类封装的方法中，通过 self. 访问对象的 属性和方法 调用方法时，程序员不需要传递 self 参数 在方法内部 可以通过 self. 访问对象的属性 也可以通过 self. 调用其他的对象方法]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[批处理]]></title>
+    <url>%2F2019%2F01%2F26%2F%E6%89%B9%E5%A4%84%E7%90%86%2F</url>
+    <content type="text"><![CDATA[批处理 1.删除桌面图标小箭头123456reg add &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&quot; /v 29 /d &quot;%systemroot%\system32\imageres.dll,197&quot; /t reg_sz /ftaskkill /f /im explorer.exeattrib -s -r -h &quot;%userprofile%\AppData\Local\iconcache.db&quot;del &quot;%userprofile%\AppData\Local\iconcache.db&quot; /f /qstart explorerpause 2.恢复桌面图标小箭头123456reg delete &quot;HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&quot; /v 29 /ftaskkill /f /im explorer.exeattrib -s -r -h &quot;%userprofile%\AppData\Local\iconcache.db&quot;del &quot;%userprofile%\AppData\Local\iconcache.db&quot; /f /qstart explorerpause ####3.创建当前日期文件夹123456@echo offcd/d %~dp1set y=%date:~0,4%set m=%date:~5,2%set d=%date:~8,2%mkdir &quot;%y%-%m%-%d%&quot; ####4.一键清理垃圾文件12345678910111213141516171819202122@echo off title 一键清除系统垃圾echo 正在清除系统垃圾文件，请稍等...... echo.del /f /s /q %systemdrive%\*.tmp del /f /s /q %systemdrive%\*._mp del /f /s /q %systemdrive%\*.log del /f /s /q %systemdrive%\*.gid del /f /s /q %systemdrive%\*.chk del /f /s /q %systemdrive%\*.old del /f /s /q %systemdrive%\recycled\*.* del /f /s /q %windir%\*.bak del /f /s /q %windir%\prefetch\*.* rd /s /q %windir%\temp &amp; md %windir%\temp del /f /q %userprofile%\cookies\*.* del /f /q %userprofile%\recent\*.* del /f /s /q &quot;%userprofile%\Local Settings\Temporary Internet Files\*.*&quot; del /f /s /q &quot;%userprofile%\Local Settings\Temp\*.*&quot; del /f /s /q &quot;%userprofile%\recent\*.*&quot; echo.echo 清除系统垃圾完成！ echo. &amp; pause]]></content>
+      <categories>
+        <category>Windows</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[为什么ip地址能够通讯还需要MAC地址]]></title>
+    <url>%2F2018%2F12%2F16%2F%E4%B8%BA%E4%BB%80%E4%B9%88ip%E5%9C%B0%E5%9D%80%E8%83%BD%E5%A4%9F%E9%80%9A%E8%AE%AF%E8%BF%98%E9%9C%80%E8%A6%81MAC%E5%9C%B0%E5%9D%80%2F</url>
+    <content type="text"><![CDATA[&ensp;&ensp;&ensp;&ensp;长话短说，理由有三点。&ensp;&ensp;&ensp;&ensp;一. 整体与局部信息传递时候，需要知道的其实是两个地址：终点地址（Final destination address）下一跳的地址（Next hop address）IP地址本质上是终点地址，它在跳过路由器（hop）的时候不会改变，而MAC地址则是下一跳的地址，每跳过一次路由器都会改变。这就是为什么还要用MAC地址的原因之一，它起到了记录下一跳的信息的作用。注：一般来说IP地址经过路由器是不变的，不过NAT（Network address translation）例外，这也是有些人反对NAT而支持IPV6的原因之一。&ensp;&ensp;&ensp;&ensp;二. 分层实现如果在IP包头（header）中增加了”下一跳IP地址“这个字段，在逻辑上来说，如果IP地址够用，交换机也支持根据IP地址转发（现在的二层交换机不支持这样做），其实MAC地址并不是必要的。但用MAC地址和IP地址两个地址，用于分别表示物理地址和逻辑地址是有好处的。这样分层可以使网络层与链路层的协议更灵活地替换，网络层不一定非要用『IP』协议，链路层也不一定非用『以太网』协议。这就像OSI七层模型，TCP/IP五层模型其实也不是必要的，用双层模型甚至单层模型实现网络也不是不可以的，只是那样做很蛋疼罢了。&ensp;&ensp;&ensp;&ensp;三. 早期的『以太网』实现早期的以太网只有集线器（hub），没有交换机（switch），所以发出去的包能被以太网内的所有机器监听到，因此要附带上MAC地址，每个机器只需要接受与自己MAC地址相匹配的包。 &ensp;&ensp;&ensp;&ensp;IP地址是有限的，每一台计算机都分配一个可以直接联网的固定的IP（你每次联网可能你的IP都在变化）的话，ip地址不够用。相反，MAC地址全球固定而且唯一的，有了MAC地址就能准确的找到你的计算机。就好比手机号和身份证号，手机号可以换，而且你换了手机号，我可能就找不到你了，但是你的身份证号不会变，有了它就一定能找到你。而且，如果IP层抢了第二层的饭碗，你就不得不考虑第二层的很多东西了，这就让IP层的实现变得十分困难，这就不符合分层简化的思想。 &ensp;&ensp;&ensp;&ensp;来源链接：https://www.zhihu.com/question/21546408/answer/28155896]]></content>
+      <categories>
+        <category>十万个为什么</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[为什么有了mac地址还需要IP地址]]></title>
+    <url>%2F2018%2F12%2F15%2F%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%86mac%E5%9C%B0%E5%9D%80%E8%BF%98%E9%9C%80%E8%A6%81IP%E5%9C%B0%E5%9D%80%2F</url>
+    <content type="text"><![CDATA[&ensp;&ensp;&ensp;&ensp;由于全世界存在各式各样的网络，他们使用不同的硬件地址。要是这些异构网络能够互相通信就必须进行非常复杂的硬件地址转换工作，因此由用户或用户主机来完成这项工作几乎是不可能的事。但统一的IP地址把这个复杂问题解决了。&ensp;&ensp;&ensp;&ensp;连接到因特网的主机只需拥有统一的IP地址，它们之间的通信就像连接在同一个网络（虚拟互连网络或者简称IP网），因为调用ARP的复杂过程都是由计算机软件自动进行的。&ensp;&ensp;&ensp;&ensp;MAC地址是物理层的地址，但它只是以太网的物理地址。互联网是由很多异构的物理网络通过路由器联接起来的，不同的物理网络，寻址方式很可能是不同的，可能根本不使用MAC地址。这样，不同的物理网络想要进行通讯就变得十分困难，因为彼此的数据帧相互不兼容。所以，我们想要一个公用的标准去遵循，这个标准就是IP。IP地址大家都知道了，属于TCP/IP协议族，它属于网络分层的第三层（网络层）。分层的好处是什么呢？就是让你不再去考虑两个不同的实现方式的物理网之间如何通讯，比如一个以太网和一个令牌环网。它屏蔽了下层的东西，让所有的网络都建立在IP地址之上，整个互联网在第三层看起来就像是一个巨大的IP网，不用去管什么以太网，令牌网，无线网等，都叫IP网，都统一使用IP来进行通讯。 &ensp;&ensp;&ensp;&ensp;mac地址就好像个人的身份证号，人的身份证号和人户口所在的城市，出生的日期有关，但是和人所在的位置没有关系，人是会移动的，知道一个人的身份证号，并不能找到它这个人，mac地址类似，它是和设备的生产者，批次，日期之类的关联起来，知道一个设备的mac，并不能在网络中将数据发送给它，除非它和发送方的在同一个网络内。 &ensp;&ensp;&ensp;&ensp;所以要实现机器之间的通信，我们还需要有ip地址的概念，ip地址表达的是当前机器在网络中的位置，类似于城市名+道路号+门牌号的概念。通过ip层的寻址，我们能知道按何种路径在全世界任意两台Internet上的的机器间传输数据。 &ensp;&ensp;&ensp;&ensp;另外mac地址通常是不变的，ip地址是可变的，尤其是移动设备，ip地址会经常变更。mac地址的设计不携带设备在网络中的位置信息，想要通过mac地址通信，我们得在所有的设备上维护一张很大的表，记录所有mac地址路由在当前位置的的下一跳，这显然不合理。那么既然能够通过IP地址通讯，为什么还需要mac地址呢？]]></content>
+      <categories>
+        <category>十万个为什么</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[为什么硬盘最多只有四个主分区]]></title>
+    <url>%2F2018%2F12%2F05%2F%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A1%AC%E7%9B%98%E6%9C%80%E5%A4%9A%E5%8F%AA%E6%9C%89%E5%9B%9B%E4%B8%AA%E4%B8%BB%E5%88%86%E5%8C%BA%2F</url>
+    <content type="text"><![CDATA[&ensp;&ensp;&ensp;&ensp;PC行业标准中一个硬盘只能分四个分区.这样的四个分区在不同的操作系统中被冠以不同的名称他可能叫partition （主分区）或者slice ,但是无论他们怎么叫,这些系统都支持这样的四个分区,都可以识别分区的起始位置和大小等信息。 &ensp;&ensp;&ensp;&ensp;为什么一个硬盘只能分四个主分区呢?这是由个人计算机初期的设计架构决定的。一开始,PC被设计成这样的启动过程,开机时主板BIOS进行自检,当一切OK后,就开始读取硬盘的第一个扇区,一个扇区的大小是512字节,这是计算机工业里的标准,无论什么硬盘,一个扇区的大小都是512字节。 &ensp;&ensp;&ensp;&ensp;Boot Sector也就是硬盘的第一个扇区，它由MBR（Master Boot Record）， DPT（Disk Partition Table） 和 Boot Record ID三部分组成。MBR又称为主引导记录，占用Boot Sector的前446个字节（0~0x1BD），存放系统主引导程序（它负责从活动分区中装载并且运行系统引导程序）。 DPT即主分区表占用64个字节（0x1BE~0x1FD），记录磁盘的基本分区信息。主分区表分为四个分区项，每项16个字节，分别记录每个主分区的信息（因此最多可以有四个主分区）。 Boot Record ID即引导区标记占用两个字节（0x1FE~0x1FF），对于合法引导区，它等于0xaa55，（aa和55被称为幻数 Magic number）这是判别引导区是否合法的标志,所以,对硬盘加密的简单办法就是从MBR中察掉这两个字节.那么这个硬盘挂到任何电脑上都会显示为一个没有分区的空白硬盘.但是只要把这两个字节重新写上,数据又能读出。这样446+64+2=512字节。&ensp;&ensp;&ensp;&ensp;主分区，也称为主磁盘分区，和扩展分区、逻辑分区一样，是一种分区类型。主分区中不能再划分其他类型的分区，因此每个主分区都相当于一个逻辑磁盘（在这一点上主分区和逻辑分区很相似，但主分区是直接在硬盘上划分的，逻辑分区则必须建立于扩展分区中）。 &ensp;&ensp;&ensp;&ensp;所以可以知道： 其实所谓分区只是针对那个64 bytes 的分区表进行设定而已 硬盘默认的分区表仅能写入四组分区信息 这四组分区信息我们称为主要(Primary)或延伸(Extend)分区槽 主要分区和延伸分区最多只有四个（硬盘限制） 延伸分区最多只能有一个（操作系统限制） 逻辑分区是由延伸分区持续切割出来的分区槽 &ensp;&ensp;&ensp;&ensp;整个启动流程到操作系统之前的动作应该是这样的： 1.BIOS：启动主动运行的韧体，会认识第一个可启动的装置； 2.MBR：第一个可启动装置的第一个磁区内的主要启动记录区块，内含启动管理程序； 3.MBR这个仅有446 bytes的硬盘容量里面会放置最基本的启动管理程序 4.启动管理程序(boot loader)：一支可读取核心文件来运行的软件； 5.核心文件：开始操作系统的功能...]]></content>
+      <categories>
+        <category>十万个为什么</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[tcp_ip_1]]></title>
+    <url>%2F2018%2F11%2F13%2Ftcp_ip_1%2F</url>
+    <content type="text"><![CDATA[首先，TCP/IP不是一个协议，而是一个协议族的统称。里面包括了IP协议，ICMP协议，TCP协议，以及我们更加熟悉的http、ftp、pop3协议等等。 tcp/ip协议分层TCP/IP协议族的结构和ISO-OSI的七层协议经典架构比较如图所示 ip地址&ensp;ip地址：用来在网络中标记一台电脑，比如192.168.1.1；在本地局域网上是唯一的。&ensp;&ensp;&ensp; IP地址是网络号+主机号的组合 域名系统&ensp;&ensp;&ensp;&ensp;域名系统是一个分布的数据库，它提供将主机名（就是网址啦）转换成IP地址的服务。 RFC&ensp;&ensp;&ensp;&ensp;RFC是什么？RFC就是tcp/ip协议的标准文档。 端口号端口是通过端口号来标记的，端口号只有整数，范围是从0到65535 注意：端口数不一样的*nix系统不一样，还可以手动修改 这个号码是用在TCP，UDP上的一个逻辑号码，并不是一个硬件端口，我们平时说把某某端口封掉了，也只是在IP层次把带有这个号码的IP包给过滤掉了而已。 查看端口： 用“netstat －an”查看端口状态 lsof -i [tcp/udp]:2425]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Linux常用命令]]></title>
+    <url>%2F2018%2F10%2F30%2FLinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[自用 manman命令中常用按键以及用途 按键 用处 空格键 向下翻一页 PaGe down 向下翻一页 PaGe up 向上翻一页 home 直接前往首页 end 直接前往尾页 / 从上至下搜索某个关键词，如“/linux” ? 从下至上搜索某个关键词，如“?linux” n 定位到下一个搜索到的关键词 N 定位到上一个搜索到的关键词 q 退出帮助文档 man命令帮助信息的结构以及意义 结构名称 代表意义 NAME 命令的名称 SYNOPSIS 参数的大致使用方法 DESCRIPTION 介绍说明 EXAMPLES 演示（附带简单说明） OVERVIEW 概述 DEFAULTS 默认的功能 OPTIONS 具体的可用选项（带介绍） ENVIRONMENT 环境变量 FILES 用到的文件 SEE ALSO 相关的资料 HISTORY 维护历史与联系方式 echo用于在终端输出字符串或变量提取后的值，格式为“echo [字符串 | $变量]”。 date用于显示及设置系统的时间或日期，格式为“date [选项] [+指定的格式]”。 date命令中的参数以及作用 参数 作用 %t 跳格[Tab键] %H 小时（00～23） %I 小时（00～12） %M 分钟（00～59） %S 秒（00～59） %j 今年中的第几天 wget用于在终端中下载网络文件，格式为“wget [参数] 下载地址”。wget命令的参数以及作用 参数 作用 -b 后台下载模式 -P 下载到指定目录 -t 最大尝试次数 -c 断点续传 -p 下载页面内所有资源，包括图片、视频等 -r 递归下载 psps命令用于查看系统中的进程状态，格式为“ps [参数]”。ps命令的参数以及作用 参数 作用 -a 显示所有进程（包括其他用户的进程） -u 用户以及其他详细信息 -x 显示没有控制终端的进程 有5种常见的进程状态，分别为运行、中断、不可中断、僵死与停止，其各自含义如下所示。 进程状态 含义 R（运行） 进程正在运行或在运行队列中等待 S（中断） 进程处于休眠中，当某个条件形成后或者接收到信号时，则脱离该状态 D（不可中断） 进程不响应系统异步信号，即便用kill命令也不能将其中断 Z（僵死） 进程已经终止，但进程描述符依然存在, 直到父进程调用wait4()系统函数后将进程释放 T（停止） 进程收到停止信号后停止运行 toptop命令用于动态地监视进程活动与系统负载等信息，其格式为top pidofpidof命令用于查询某个指定服务进程的PID值，格式为“pidof [参数] [服务名称]”。 killkill命令用于终止某个指定PID的服务进程，格式为“kill [参数] [进程PID]”。 killallkillall命令用于终止某个指定名称的服务所对应的全部进程，格式为：“killall [参数] [服务名称]”。 ifconfigifconfig命令用于获取网卡配置与网络状态等信息，格式为“ifconfig [网络设备] [参数]” unameuname命令用于查看系统内核与系统版本等信息，格式为“uname [-a]”。看当前系统版本的详细信息，则需要查看os-release文件 cat /etc/os-release uptimeuptime用于查看系统的负载信息，它可以显示当前系统时间、系统已运行时间、启用终端数量以及平均负载值等信息。平均负载值指的是系统在最近1分钟、5分钟、15分钟内的压力情况（下面加粗的信息部分）；负载值越低越好，尽量不要长期超过1，在生产环境中不要超过5。 freefree用于显示当前系统中内存的使用量信息，格式为“free [-h]”。 lastlast命令用于查看所有系统的登录记录，格式为“last [参数]”。 sosreportsosreport命令用于收集系统配置及架构信息并输出诊断文档，格式为sosreport。当Linux系统出现故障需要联系技术支持人员时，大多数时候都要先使用这个命令来简单收集系统的运行状态和服务配置信息，以便让技术支持人员能够远程解决一些小问题，亦或让他们能提前了解某些复杂问题。 catcat命令用于查看纯文本文件（内容较少的），格式为“cat [选项] [文件]”。 moremore命令用于查看纯文本文件（内容较多的），格式为“more [选项]文件”。 headhead命令用于查看纯文本文档的前N行，格式为“head [选项] [文件]”。 tailtail命令用于查看纯文本文档的后N行或持续刷新内容，格式为“tail [选项] [文件]”。需要查看文本内容的最后20行，这时就需要用到tail命令了。tail命令的操作方法与head命令非常相似，只需要执行“tail -n 20 文件名”命令就可以达到这样的效果。tail命令最强悍的功能是可以持续刷新一个文件的内容，当想要实时查看最新日志文件时，这特别有用，此时的命令格式为“tail -f 文件名”： trtr命令用于替换文本文件中的字符，格式为“tr [原始字符] [目标字符]”。 wcwc命令用于统计指定文本的行数、字数、字节数，格式为“wc [参数] 文本”。 wc的参数以及作用 参数 作用 -l 只显示行数 -w 只显示单词数 -c 只显示字节数 statstat命令用于查看文件的具体存储信息和时间等信息，格式为“stat 文件名称”。 cutcut命令用于按“列”提取文本字符，格式为“cut [参数] 文本”。 diffdiff命令用于比较多个文本文件的差异，格式为“diff [参数] 文件”。在使用diff命令时，不仅可以使用–brief参数来确认两个文件是否不同，还可以使用-c参数来详细比较出多个文件的差异之处，这绝对是判断文件是否被篡改的有力神器。例如，先使用cat命令分别查看diff_A.txt和diff_B.txt文件的内容，然后进行比较 touchtouch命令用于创建空白文件或设置文件的时间，格式为“touch [选项] [文件]”。对touch命令来讲，有难度的操作主要是体现在设置文件内容的修改时间（mtime）、文件权限或属性的更改时间（ctime）与文件的读取时间（atime）上面。touch命令的参数及其作用如表所示。 touch命令的参数及其作用 参数 作用 -a 仅修改“读取时间”（atime） -m 仅修改“修改时间”（mtime） -d 同时修改atime与mtime mkdirmkdir命令用于创建空白的目录，格式为“mkdir [选项] 目录”。 cpcp命令用于复制文件或目录，格式为“cp [选项] 源文件 目标文件”。大家对文件复制操作应该不陌生，在Linux系统中，复制操作具体分为3种情况： 如果目标文件是目录，则会把源文件复制到该目录中； 如果目标文件也是普通文件，则会询问是否要覆盖它； 如果目标文件不存在，则执行正常的复制操作。 cp命令的参数及其作用 参数 作用 -p 保留原始文件的属性 -d 若对象为“链接文件”，则保留该“链接文件”的属性 -r 递归持续复制（用于目录） -i 若目标文件存在则询问是否覆盖 -a 相当于-pdr（p、d、r为上述参数） mvmv命令用于剪切文件或将文件重命名，格式为“mv [选项] 源文件 [目标路径|目标文件名]”。 rmrm命令用于删除文件或目录，格式为“rm [选项] 文件”。 dddd命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。 dd命令的参数及其作用 参数 作用 if 输入的文件名称 of 输出的文件名称 bs 设置每个“块”的大小 count 设置要复制“块”的个数 filefile命令用于查看文件的类型，格式为“file 文件名”。在Linux系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用file命令来查看文件类型了。 tartar命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。 tar命令的参数及其作用 参数 作用 -c 创建压缩文件 -x 解开压缩文件 -t 查看压缩包内有哪些文件 -z 用Gzip压缩或解压 -j 用bzip2压缩或解压 -v 显示压缩或解压的过程 -f 目标文件名 -p 保留原始的权限与属性 -P 使用绝对路径来压缩 -C 指定解压到的目录 grepgrep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。 grep命令的参数及其作用 参数 作用 -b 将可执行文件(binary)当作文本文件（text）来搜索 -c 仅显示找到的行数 -i 忽略大小写 -n 显示行号 -v 反向选择——仅列出没有“关键词”的行。 findfind命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。在Linux系统中，搜索工作一般都是通过find命令来完成的，它可以使用不同的文件特性作为寻找条件（如文件名、大小、修改时间、权限等信息），一旦匹配成功则默认将信息显示到屏幕上。 find命令中的参数以及作用 参数 作用 -name 匹配名称 -perm 匹配权限（mode为完全匹配，-mode为包含即可） -user 匹配所有者 -group 匹配所有组 -mtime -n +n 匹配修改内容的时间（-n指n天以内，+n指n天以前） -atime -n +n 匹配访问文件的时间（-n指n天以内，+n指n天以前） -ctime -n +n 匹配修改文件权限的时间（-n指n天以内，+n指n天以前） -nouser 匹配无所有者的文件 -nogroup 匹配无所有组的文件 -newer f1 !f2 匹配比文件f1新但比f2旧的文件 –type b/d/c/p/l/f 匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件） -size 匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件） -prune 忽略某个目录 -exec …… {}\; 后面可跟用于进一步处理搜索结果的命令（下文会有演示）]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Centos7.4.1708 单机部署 Oracle11g R2 11.2.0.4 环境]]></title>
+    <url>%2F2018%2F10%2F15%2Fcentos%20%E5%AE%89%E8%A3%85%20oracle%2011g%2F</url>
+    <content type="text"><![CDATA[操作系统 ：centos 7.4.1708 64位数据库 ： oracle 11g 11.2.0.4 r2 版本修改操作系统的核心参数 在Root用户下执行以下步骤： 修改用户的SHELL的限制 vi /etc/security/limits.conf 修改文件将下列内容加入该文件。 oracle soft nproc 2047 oracle hard nproc 16384 oracle soft nofile 1024 oracle hard nofile 65536 修改login文件 vi /etc/pam.d/login session required /lib/security/pam_limits.so session required pam_limits.so 修改linux内核 vi /etc/sysctl.conf fs.file-max = 6815744 fs.aio-max-nr = 1048576 kernel.shmall = 2097152 kernel.shmmax = 2147483648 kernel.shmmni = 4096 kernel.sem = 250 32000 100 128 net.ipv4.ip_local_port_range = 9000 65500 net.core.rmem_default = 4194304 net.core.rmem_max = 4194304 net.core.wmem_default = 262144 net.core.wmem_max = 1048576 使 /etc/sysctl.conf 更改立即生效 sysctl -p net.ipv4.icmp_echo_ignore_broadcasts = 1 net.ipv4.conf.all.rp_filter = 1 fs.file-max = 6815744 fs.aio-max-nr = 1048576 kernel.shmall = 2097152 kernel.shmmax = 2147483648 kernel.shmmni = 4096 kernel.sem = 250 32000 100 128 net.ipv4.ip_local_port_range = 9000 65500 net.core.rmem_default = 4194304 net.core.rmem_max = 4194304 net.core.wmem_default = 262144 net.core.wmem_max = 1048576 编辑 /etc/profile vi /etc/profile if [ $USER = "oracle" ]; then if [ $SHELL = "/bin/ksh" ]; then ulimit -p 16384 ulimit -n 65536 else ulimit -u 16384 -n 65536 fi fi 创建相关用户和组作为软件安装和支持组的拥有者。创建Oracle用户和密码,输入命令： groupadd oinstall groupadd dba useradd -g oinstall -G dba -m oracle passwd oracle 创建数据库软件目录和数据文件存放目录目录的位置，根据自己的情况来定，注意磁盘空间即可，这里我把其放到oracle用户下 mkdir -p /home/oracle/app mkdir -p /home/oracle/app/oracle mkdir -p /home/oracle/app/oradata mkdir -p /home/oracle/app/oracle/product 更改目录属主为Oracle用户所有输入命令： chown -R oracle:oinstall /home/oracle/app 配置oracle用户的环境变量使用 su – oracle 切换到新创建的oracle用户下 vi .bash_profile export ORACLE_BASE=/home/oracle/app export ORACLE_HOME=$ORACLE_BASE/oracle/product/11.2.0/dbhome_1 export ORACLE_SID=orcl,hhdb export PATH=$PATH:$HOME/bin:$ORACLE_HOME/bin export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib 修改/etc/hosts文件 vi /etc/hosts 增加本机IP地址和主机名对应关系 乱码的处理一般只有安装的操作系统界面是中文的时候，安装oracle11g英文，会出现乱码 export LANG=en_US 关闭防火墙和selinuxsystemctl disable firewalld systemctl stop firewalld systemctl disable iptables systemctl disable ip6tables systemctl stop ip6tables systemctl stop ipv6tables vi /etc/selinux/configvi config This file controls the state of SELinux on the system. SELINUX= can take one of these three values: enforcing - SELinux security policy is enforced. permissive - SELinux prints warnings instead of enforcing. disabled - No SELinux policy is loaded. SELINUX=disabled SELINUXTYPE= can take one of three two values: targeted - Targeted processes are protected, minimum - Modification of targeted policy. Only selected processes are protected. mls - Multi Level Security protection. SELINUXTYPE=targeted保存退出，重启操作系统。 修改OS系统标识Oracle数据库支持在红帽和Oracle Linux上安装，不支持在CentOS上安装，所以需要修改OS系统标识为红帽。 vi /etc/redhat-release修改系统标识为redhat-7 安装补丁包yum install libgcc yum install -y gcc libaio glibc.i686 compat-libstdc++-33 compat-libstdc++-33.i686 elfutils-libelf-devel glibc-devel glibc-headers gcc-c++ libaio-devel libaio-devel.i686 libgcc.i686 libstdc++ libstdc++.i686 unixODBC unixODBC.i686 unixODBC-devel unixODBC-devel.i686 ksh 安装后，yum remove ksh，卸载掉，安装下载的pdksh补丁包。一共19个安装包，pdksh可能需要单独安装。 安装oracle11g软件 解压oracle11g软件包 unzip linux.x64_11gR2_database_1of2.zip unzip linux.x64_11gR2_database_2of2.zip chown -R oracle. database/以orcle用户登录图形界面安装oracle进入database目录，执行runInstalle./runInstaller在安装完成后，先执行下面两个脚本再点击确定 /u01/app/oraInventory/orainstRoot.sh………………… /u01/app/oracle/db/root.shRunning Oracle 11g root.sh script…………………..创建数据库，oracle用户下使用dbca工具创建.]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>操作系统</tag>
+        <tag>数据库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[岳阳楼记]]></title>
+    <url>%2F2018%2F10%2F12%2Fwo%2F</url>
+    <content type="text"><![CDATA[庆历四年春，滕子京谪守巴陵郡。越明年，政通人和，百废具兴。乃重修岳阳楼，增其旧制，刻唐贤今人诗赋于其上。属予作文以记之。 予观夫巴陵胜状，在洞庭一湖。衔远山，吞长江，浩浩汤汤，横无际涯；朝晖夕阴，气象万千。此则岳阳楼之大观也，前人之述备矣。然则北通巫峡，南极潇湘，迁客骚人，多会于此，览物之情，得无异乎？ 若夫霪雨霏霏，连月不开，阴风怒号，浊浪排空；日星隐曜，山岳潜形；商旅不行，樯倾楫摧；薄暮冥冥，虎啸猿啼。登斯楼也，则有去国怀乡，忧谗畏讥，满目萧然，感极而悲者矣。 至若春和景明，波澜不惊，上下天光，一碧万顷；沙鸥翔集，锦鳞游泳；岸芷汀兰，郁郁青青。而或长烟一空，皓月千里，浮光跃金，静影沉璧，渔歌互答，此乐何极！登斯楼也，则有心旷神怡，宠辱偕忘，把酒临风，其喜洋洋者矣。 嗟夫！予尝求古仁人之心，或异二者之为，何哉？不以物喜，不以己悲；居庙堂之高则忧其民；处江湖之远则忧其君。是进亦忧，退亦忧。然则何时而乐耶？其必曰“先天下之忧而忧，后天下之乐而乐”乎。噫！微斯人，吾谁与归？ 时六年九月十五日。]]></content>
+  </entry>
+</search>

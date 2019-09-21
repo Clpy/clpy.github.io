@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="潇湘夜雨" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="自用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令">
+<meta property="og:url" content="http://yoursite.com/2018/10/30/Linux常用命令/index.html">
+<meta property="og:site_name" content="潇湘夜雨">
+<meta property="og:description" content="自用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-05T13:15:29.654Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux常用命令">
+<meta name="twitter:description" content="自用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/30/Linux常用命令/">
+
+
+
+
+
+  <title>Linux常用命令 | 潇湘夜雨</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">潇湘夜雨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">知其然，知其所以然</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/30/Linux常用命令/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇湘夜雨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇湘夜雨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux常用命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-30T14:19:49+08:00">
+                10-30-2018
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>自用<br><a id="more"></a></p>
+<h4 id="man"><a href="#man" class="headerlink" title="man"></a>man</h4><p>man命令中常用按键以及用途</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">按键</th>
+<th style="text-align:center">用处</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">空格键</td>
+<td style="text-align:center">向下翻一页</td>
+</tr>
+<tr>
+<td style="text-align:center">PaGe down</td>
+<td style="text-align:center">向下翻一页</td>
+</tr>
+<tr>
+<td style="text-align:center">PaGe up</td>
+<td style="text-align:center">向上翻一页</td>
+</tr>
+<tr>
+<td style="text-align:center">home</td>
+<td style="text-align:center">直接前往首页</td>
+</tr>
+<tr>
+<td style="text-align:center">end</td>
+<td style="text-align:center">直接前往尾页</td>
+</tr>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">从上至下搜索某个关键词，如“/linux”</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">从下至上搜索某个关键词，如“?linux”  </td>
+</tr>
+<tr>
+<td style="text-align:center">n</td>
+<td style="text-align:center">定位到下一个搜索到的关键词</td>
+</tr>
+<tr>
+<td style="text-align:center">N</td>
+<td style="text-align:center">定位到上一个搜索到的关键词</td>
+</tr>
+<tr>
+<td style="text-align:center">q</td>
+<td style="text-align:center">退出帮助文档</td>
+</tr>
+</tbody>
+</table>
+<p> man命令帮助信息的结构以及意义</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">结构名称</th>
+<th style="text-align:center">代表意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NAME</td>
+<td style="text-align:center">命令的名称</td>
+</tr>
+<tr>
+<td style="text-align:center">SYNOPSIS</td>
+<td style="text-align:center">参数的大致使用方法</td>
+</tr>
+<tr>
+<td style="text-align:center">DESCRIPTION</td>
+<td style="text-align:center">介绍说明</td>
+</tr>
+<tr>
+<td style="text-align:center">EXAMPLES</td>
+<td style="text-align:center">演示（附带简单说明）</td>
+</tr>
+<tr>
+<td style="text-align:center">OVERVIEW</td>
+<td style="text-align:center">概述</td>
+</tr>
+<tr>
+<td style="text-align:center">DEFAULTS</td>
+<td style="text-align:center">默认的功能</td>
+</tr>
+<tr>
+<td style="text-align:center">OPTIONS</td>
+<td style="text-align:center">具体的可用选项（带介绍）</td>
+</tr>
+<tr>
+<td style="text-align:center">ENVIRONMENT</td>
+<td style="text-align:center">环境变量</td>
+</tr>
+<tr>
+<td style="text-align:center">FILES</td>
+<td style="text-align:center">用到的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">SEE ALSO</td>
+<td style="text-align:center">相关的资料</td>
+</tr>
+<tr>
+<td style="text-align:center">HISTORY</td>
+<td style="text-align:center">维护历史与联系方式</td>
+</tr>
+</tbody>
+</table>
+<h4 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h4><p>用于在终端输出字符串或变量提取后的值，格式为“echo [字符串 | $变量]”。</p>
+<h4 id="date"><a href="#date" class="headerlink" title="date"></a>date</h4><p>用于显示及设置系统的时间或日期，格式为“date [选项] [+指定的格式]”。<br> date命令中的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%t</td>
+<td style="text-align:center">跳格[Tab键]</td>
+</tr>
+<tr>
+<td style="text-align:center">%H</td>
+<td style="text-align:center">小时（00～23）</td>
+</tr>
+<tr>
+<td style="text-align:center">%I</td>
+<td style="text-align:center">小时（00～12）</td>
+</tr>
+<tr>
+<td style="text-align:center">%M</td>
+<td style="text-align:center">分钟（00～59）</td>
+</tr>
+<tr>
+<td style="text-align:center">%S</td>
+<td style="text-align:center">秒（00～59）</td>
+</tr>
+<tr>
+<td style="text-align:center">%j</td>
+<td style="text-align:center">今年中的第几天</td>
+</tr>
+</tbody>
+</table>
+<h4 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h4><p>用于在终端中下载网络文件，格式为“wget [参数] 下载地址”。<br>wget命令的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-b</td>
+<td style="text-align:center">后台下载模式</td>
+</tr>
+<tr>
+<td style="text-align:center">-P</td>
+<td style="text-align:center">下载到指定目录</td>
+</tr>
+<tr>
+<td style="text-align:center">-t</td>
+<td style="text-align:center">最大尝试次数</td>
+</tr>
+<tr>
+<td style="text-align:center">-c</td>
+<td style="text-align:center">断点续传</td>
+</tr>
+<tr>
+<td style="text-align:center">-p</td>
+<td style="text-align:center">下载页面内所有资源，包括图片、视频等</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td style="text-align:center">递归下载</td>
+</tr>
+</tbody>
+</table>
+<h4 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h4><p>ps命令用于查看系统中的进程状态，格式为“ps [参数]”。<br>ps命令的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">显示所有进程（包括其他用户的进程）</td>
+</tr>
+<tr>
+<td style="text-align:center">-u</td>
+<td style="text-align:center">用户以及其他详细信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-x</td>
+<td style="text-align:center">显示没有控制终端的进程</td>
+</tr>
+</tbody>
+</table>
+<p>有5种常见的进程状态，分别为运行、中断、不可中断、僵死与停止，其各自含义如下所示。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">进程状态</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">R（运行）</td>
+<td style="text-align:center">进程正在运行或在运行队列中等待</td>
+</tr>
+<tr>
+<td style="text-align:center">S（中断）</td>
+<td style="text-align:center">进程处于休眠中，当某个条件形成后或者接收到信号时，则脱离该状态</td>
+</tr>
+<tr>
+<td style="text-align:center">D（不可中断）</td>
+<td style="text-align:center">进程不响应系统异步信号，即便用kill命令也不能将其中断</td>
+</tr>
+<tr>
+<td style="text-align:center">Z（僵死）</td>
+<td style="text-align:center">进程已经终止，但进程描述符依然存在, 直到父进程调用wait4()系统函数后将进程释放</td>
+</tr>
+<tr>
+<td style="text-align:center">T（停止）</td>
+<td style="text-align:center">进程收到停止信号后停止运行</td>
+</tr>
+</tbody>
+</table>
+<h4 id="top"><a href="#top" class="headerlink" title="top"></a>top</h4><p>top命令用于动态地监视进程活动与系统负载等信息，其格式为top</p>
+<h4 id="pidof"><a href="#pidof" class="headerlink" title="pidof"></a>pidof</h4><p>pidof命令用于查询某个指定服务进程的PID值，格式为“pidof [参数] [服务名称]”。</p>
+<h4 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h4><p>kill命令用于终止某个指定PID的服务进程，格式为“kill [参数] [进程PID]”。</p>
+<h4 id="killall"><a href="#killall" class="headerlink" title="killall"></a>killall</h4><p>killall命令<br>用于终止某个指定名称的服务所对应的全部进程，格式为：“killall [参数] [服务名称]”。</p>
+<h4 id="ifconfig"><a href="#ifconfig" class="headerlink" title="ifconfig"></a>ifconfig</h4><p>ifconfig命令用于获取网卡配置与网络状态等信息，格式为“ifconfig [网络设备] [参数]”</p>
+<h4 id="uname"><a href="#uname" class="headerlink" title="uname"></a>uname</h4><p>uname命令用于查看系统内核与系统版本等信息，格式为“uname [-a]”。<br>看当前系统版本的详细信息，则需要查看os-release文件<br>    cat /etc/os-release</p>
+<h4 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a>uptime</h4><p>uptime用于查看系统的负载信息，它可以显示当前系统时间、系统已运行时间、启用终端数量以及平均负载值等信息。平均负载值指的是系统在最近1分钟、5分钟、15分钟内的压力情况（下面加粗的信息部分）；负载值越低越好，尽量不要长期超过1，在生产环境中不要超过5。</p>
+<h4 id="free"><a href="#free" class="headerlink" title="free"></a>free</h4><p>free用于显示当前系统中内存的使用量信息，格式为“free [-h]”。</p>
+<h4 id="last"><a href="#last" class="headerlink" title="last"></a>last</h4><p>last命令用于查看所有系统的登录记录，格式为“last [参数]”。</p>
+<h4 id="sosreport"><a href="#sosreport" class="headerlink" title="sosreport"></a>sosreport</h4><p>sosreport命令用于收集系统配置及架构信息并输出诊断文档，格式为sosreport。<br>当Linux系统出现故障需要联系技术支持人员时，大多数时候都要先使用这个命令来简单收集系统的运行状态和服务配置信息，以便让技术支持人员能够远程解决一些小问题，亦或让他们能提前了解某些复杂问题。</p>
+<h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><p>cat命令用于查看纯文本文件（内容较少的），格式为“cat [选项] [文件]”。</p>
+<h4 id="more"><a href="#more" class="headerlink" title="more"></a>more</h4><p>more命令用于查看纯文本文件（内容较多的），格式为“more [选项]文件”。</p>
+<h4 id="head"><a href="#head" class="headerlink" title="head"></a>head</h4><p>head命令用于查看纯文本文档的前N行，格式为“head [选项] [文件]”。</p>
+<h4 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h4><p>tail命令用于查看纯文本文档的后N行或持续刷新内容，格式为“tail [选项] [文件]”。<br>需要查看文本内容的最后20行，这时就需要用到tail命令了。tail命令的操作方法与head命令非常相似，只需要执行“tail -n 20 文件名”命令就可以达到这样的效果。tail命令最强悍的功能是可以持续刷新一个文件的内容，当想要实时查看最新日志文件时，这特别有用，此时的命令格式为“tail -f 文件名”：</p>
+<h4 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h4><p>tr命令用于替换文本文件中的字符，格式为“tr [原始字符] [目标字符]”。</p>
+<h4 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h4><p>wc命令用于统计指定文本的行数、字数、字节数，格式为“wc [参数] 文本”。<br> wc的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-l</td>
+<td style="text-align:center">只显示行数</td>
+</tr>
+<tr>
+<td style="text-align:center">-w</td>
+<td style="text-align:center">只显示单词数</td>
+</tr>
+<tr>
+<td style="text-align:center">-c</td>
+<td style="text-align:center">只显示字节数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="stat"><a href="#stat" class="headerlink" title="stat"></a>stat</h4><p>stat命令用于查看文件的具体存储信息和时间等信息，格式为“stat 文件名称”。</p>
+<h4 id="cut"><a href="#cut" class="headerlink" title="cut"></a>cut</h4><p>cut命令用于按“列”提取文本字符，格式为“cut [参数] 文本”。</p>
+<h4 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h4><p>diff命令用于比较多个文本文件的差异，格式为“diff [参数] 文件”。<br>在使用diff命令时，不仅可以使用–brief参数来确认两个文件是否不同，还可以使用-c参数来详细比较出多个文件的差异之处，这绝对是判断文件是否被篡改的有力神器。例如，先使用cat命令分别查看diff_A.txt和diff_B.txt文件的内容，然后进行比较</p>
+<h4 id="touch"><a href="#touch" class="headerlink" title="touch"></a>touch</h4><p>touch命令用于创建空白文件或设置文件的时间，格式为“touch [选项] [文件]”。<br>对touch命令来讲，有难度的操作主要是体现在设置文件内容的修改时间（mtime）、文件权限或属性的更改时间（ctime）与文件的读取时间（atime）上面。touch命令的参数及其作用如表所示。</p>
+<p> touch命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">仅修改“读取时间”（atime）</td>
+</tr>
+<tr>
+<td style="text-align:center">-m</td>
+<td style="text-align:center">仅修改“修改时间”（mtime）</td>
+</tr>
+<tr>
+<td style="text-align:center">-d</td>
+<td style="text-align:center">同时修改atime与mtime</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h4><p>mkdir命令用于创建空白的目录，格式为“mkdir [选项] 目录”。</p>
+<h4 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h4><p>cp命令用于复制文件或目录，格式为“cp [选项] 源文件 目标文件”。大家对文件复制操作应该不陌生，在Linux系统中，复制操作具体分为3种情况：</p>
+<pre><code>如果目标文件是目录，则会把源文件复制到该目录中；
+如果目标文件也是普通文件，则会询问是否要覆盖它；
+如果目标文件不存在，则执行正常的复制操作。</code></pre>
+
+<p>cp命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-p</td>
+<td style="text-align:center">保留原始文件的属性</td>
+</tr>
+<tr>
+<td style="text-align:center">-d</td>
+<td style="text-align:center">若对象为“链接文件”，则保留该“链接文件”的属性</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td style="text-align:center">递归持续复制（用于目录）</td>
+</tr>
+<tr>
+<td style="text-align:center">-i</td>
+<td style="text-align:center">若目标文件存在则询问是否覆盖</td>
+</tr>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">相当于-pdr（p、d、r为上述参数）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="mv"><a href="#mv" class="headerlink" title="mv"></a>mv</h4><p>mv命令用于剪切文件或将文件重命名，格式为“mv [选项] 源文件 [目标路径|目标文件名]”。</p>
+<h4 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h4><p>rm命令用于删除文件或目录，格式为“rm [选项] 文件”。</p>
+<h4 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h4><p>dd命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。<br>  dd命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">if</td>
+<td style="text-align:center">输入的文件名称</td>
+</tr>
+<tr>
+<td style="text-align:center">of</td>
+<td style="text-align:center">输出的文件名称</td>
+</tr>
+<tr>
+<td style="text-align:center">bs</td>
+<td style="text-align:center">设置每个“块”的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">count</td>
+<td style="text-align:center">设置要复制“块”的个数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="file"><a href="#file" class="headerlink" title="file"></a>file</h4><p>file命令用于查看文件的类型，格式为“file 文件名”。<br>在Linux系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用file命令来查看文件类型了。</p>
+<h4 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h4><p>tar命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。<br> tar命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-c</td>
+<td style="text-align:center">创建压缩文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-x</td>
+<td style="text-align:center">解开压缩文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-t</td>
+<td style="text-align:center">查看压缩包内有哪些文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-z</td>
+<td style="text-align:center">用Gzip压缩或解压</td>
+</tr>
+<tr>
+<td style="text-align:center">-j</td>
+<td style="text-align:center">用bzip2压缩或解压</td>
+</tr>
+<tr>
+<td style="text-align:center">-v</td>
+<td style="text-align:center">显示压缩或解压的过程</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td style="text-align:center">目标文件名</td>
+</tr>
+<tr>
+<td style="text-align:center">-p</td>
+<td style="text-align:center">保留原始的权限与属性</td>
+</tr>
+<tr>
+<td style="text-align:center">-P</td>
+<td style="text-align:center">使用绝对路径来压缩</td>
+</tr>
+<tr>
+<td style="text-align:center">-C</td>
+<td style="text-align:center">指定解压到的目录</td>
+</tr>
+</tbody>
+</table>
+<h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><p>grep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。<br>   grep命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-b</td>
+<td style="text-align:center">将可执行文件(binary)当作文本文件（text）来搜索</td>
+</tr>
+<tr>
+<td style="text-align:center">-c</td>
+<td style="text-align:center">仅显示找到的行数</td>
+</tr>
+<tr>
+<td style="text-align:center">-i</td>
+<td style="text-align:center">忽略大小写</td>
+</tr>
+<tr>
+<td style="text-align:center">-n</td>
+<td style="text-align:center">显示行号</td>
+</tr>
+<tr>
+<td style="text-align:center">-v</td>
+<td style="text-align:center">反向选择——仅列出没有“关键词”的行。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="find"><a href="#find" class="headerlink" title="find"></a>find</h4><p>find命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。<br>在Linux系统中，搜索工作一般都是通过find命令来完成的，它可以使用不同的文件特性作为寻找条件（如文件名、大小、修改时间、权限等信息），一旦匹配成功则默认将信息显示到屏幕上。<br>  find命令中的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-name</td>
+<td style="text-align:center">匹配名称</td>
+</tr>
+<tr>
+<td style="text-align:center">-perm</td>
+<td style="text-align:center">匹配权限（mode为完全匹配，-mode为包含即可）</td>
+</tr>
+<tr>
+<td style="text-align:center">-user</td>
+<td style="text-align:center">匹配所有者</td>
+</tr>
+<tr>
+<td style="text-align:center">-group</td>
+<td style="text-align:center">匹配所有组</td>
+</tr>
+<tr>
+<td style="text-align:center">-mtime -n +n</td>
+<td style="text-align:center">匹配修改内容的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td style="text-align:center">-atime -n +n</td>
+<td style="text-align:center">匹配访问文件的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td style="text-align:center">-ctime -n +n</td>
+<td style="text-align:center">匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td style="text-align:center">-nouser</td>
+<td style="text-align:center">匹配无所有者的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-nogroup</td>
+<td style="text-align:center">匹配无所有组的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">-newer f1 !f2</td>
+<td style="text-align:center">匹配比文件f1新但比f2旧的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">–type b/d/c/p/l/f</td>
+<td style="text-align:center">匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</td>
+</tr>
+<tr>
+<td style="text-align:center">-size</td>
+<td style="text-align:center">匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</td>
+</tr>
+<tr>
+<td style="text-align:center">-prune</td>
+<td style="text-align:center">忽略某个目录</td>
+</tr>
+<tr>
+<td style="text-align:center">-exec …… {}\;</td>
+<td style="text-align:center">后面可跟用于进一步处理搜索结果的命令（下文会有演示）</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/15/centos 安装 oracle 11g/" rel="next" title="Centos7.4.1708 单机部署 Oracle11g R2 11.2.0.4 环境">
+                <i class="fa fa-chevron-left"></i> Centos7.4.1708 单机部署 Oracle11g R2 11.2.0.4 环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/tcp_ip_1/" rel="prev" title="tcp_ip_1">
+                tcp_ip_1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">潇湘夜雨</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#man"><span class="nav-number">1.</span> <span class="nav-text">man</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#echo"><span class="nav-number">2.</span> <span class="nav-text">echo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#date"><span class="nav-number">3.</span> <span class="nav-text">date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wget"><span class="nav-number">4.</span> <span class="nav-text">wget</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ps"><span class="nav-number">5.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#top"><span class="nav-number">6.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pidof"><span class="nav-number">7.</span> <span class="nav-text">pidof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kill"><span class="nav-number">8.</span> <span class="nav-text">kill</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#killall"><span class="nav-number">9.</span> <span class="nav-text">killall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ifconfig"><span class="nav-number">10.</span> <span class="nav-text">ifconfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#uname"><span class="nav-number">11.</span> <span class="nav-text">uname</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#uptime"><span class="nav-number">12.</span> <span class="nav-text">uptime</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#free"><span class="nav-number">13.</span> <span class="nav-text">free</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#last"><span class="nav-number">14.</span> <span class="nav-text">last</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sosreport"><span class="nav-number">15.</span> <span class="nav-text">sosreport</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cat"><span class="nav-number">16.</span> <span class="nav-text">cat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#more"><span class="nav-number">17.</span> <span class="nav-text">more</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#head"><span class="nav-number">18.</span> <span class="nav-text">head</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tail"><span class="nav-number">19.</span> <span class="nav-text">tail</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tr"><span class="nav-number">20.</span> <span class="nav-text">tr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wc"><span class="nav-number">21.</span> <span class="nav-text">wc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stat"><span class="nav-number">22.</span> <span class="nav-text">stat</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cut"><span class="nav-number">23.</span> <span class="nav-text">cut</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#diff"><span class="nav-number">24.</span> <span class="nav-text">diff</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#touch"><span class="nav-number">25.</span> <span class="nav-text">touch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir"><span class="nav-number">26.</span> <span class="nav-text">mkdir</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cp"><span class="nav-number">27.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mv"><span class="nav-number">28.</span> <span class="nav-text">mv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rm"><span class="nav-number">29.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dd"><span class="nav-number">30.</span> <span class="nav-text">dd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#file"><span class="nav-number">31.</span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tar"><span class="nav-number">32.</span> <span class="nav-text">tar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#grep"><span class="nav-number">33.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#find"><span class="nav-number">34.</span> <span class="nav-text">find</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">潇湘夜雨</span>
+
+  
+</div>
+
+
+ 
+  
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+ -->
+
+<!--
+  <span class="post-meta-divider">|</span> 
+ -->
+
+<!--
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+ -->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

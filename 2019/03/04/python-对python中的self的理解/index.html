@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+  <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,函数,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="潇湘夜雨" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="编写类时，每个函数参数第一个参数都是self，调用时又不需要">
+<meta name="keywords" content="python,函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对python中的self的理解">
+<meta property="og:url" content="http://yoursite.com/2019/03/04/python-对python中的self的理解/index.html">
+<meta property="og:site_name" content="潇湘夜雨">
+<meta property="og:description" content="编写类时，每个函数参数第一个参数都是self，调用时又不需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-21T07:19:29.722Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对python中的self的理解">
+<meta name="twitter:description" content="编写类时，每个函数参数第一个参数都是self，调用时又不需要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/04/python-对python中的self的理解/">
+
+
+
+
+
+  <title>对python中的self的理解 | 潇湘夜雨</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">潇湘夜雨</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">知其然，知其所以然</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/python-对python中的self的理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇湘夜雨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇湘夜雨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对python中的self的理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-04T16:38:11+08:00">
+                03-04-2019
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>编写类时，每个函数参数第一个参数都是self，调用时又不需要<br><a id="more"></a></p>
+<p><strong>self指向类的实例化对象，而非类。</strong></p>
+<p>实例来说明</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">this</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        print(<span class="keyword">self</span>)</span><br><span class="line">        print(<span class="keyword">self</span>.__class_<span class="number">_</span>)</span><br><span class="line"></span><br><span class="line">t = Test()</span><br><span class="line">t.this()</span><br><span class="line">Test.this(t)</span><br></pre></td></tr></table></figure>
+<p>执行结果如下</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;__main__<span class="selector-class">.Test</span> <span class="selector-tag">object</span> at <span class="number">0</span>x000000000284E080&gt;</span><br><span class="line">&lt;class <span class="string">'__main__.Test'</span>&gt;</span><br><span class="line">&lt;class <span class="string">'__main__.Test'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>从上面的例子中可以很明显的看出，self代表的是类的实例。而<code>self.__class__</code>​则指向类。</p>
+<p>在Python的解释器内部，当我们调用t.prt()时，实际上Python解释成Test.this(t)，也就是说把self替换成类的实例。</p>
+<p><strong>self不必非写成self</strong></p>
+<p>这个参数不必非得写为self,我们可以写 abc, this等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span><span class="params">(abc)</span>:</span></span><br><span class="line">        print(abc)</span><br><span class="line">        print(abc.__class__)</span><br><span class="line"></span><br><span class="line">t = Test()</span><br><span class="line">t.prt()</span><br></pre></td></tr></table></figure>
+<p>改成abc后，运行结果和self是一样的。</p>
+<p><strong>self可以不写吗</strong></p>
+<p>self在定义时不可以省略，可以试一下，忽略的时候：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span><span class="params">()</span>:</span></span><br><span class="line">        print(self)</span><br><span class="line"></span><br><span class="line">t = Test()</span><br><span class="line">t.prt()</span><br></pre></td></tr></table></figure>
+<p>运行时提醒错误如下：prt在定义时没有参数，但是我们运行时强行传了一个参数。<br>由于上面解释过了<code>t.prt()</code>等同于<code>Test.prt(t)</code>，所以程序提醒我们多传了一个参数t。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent <span class="keyword">call</span> <span class="keyword">last</span>):</span><br><span class="line">  <span class="keyword">File</span> <span class="string">"h.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> &lt;<span class="keyword">module</span>&gt;</span><br><span class="line">    t.prt()</span><br><span class="line">TypeError: prt() takes <span class="number">0</span> positional arguments but <span class="number">1</span> was given</span><br></pre></td></tr></table></figure>
+<p>当我们的定义和调用时均不传类实例是可以的，这就是类方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span><span class="params">()</span>:</span></span><br><span class="line">        print(__class__)</span><br><span class="line">Test.prt()</span><br></pre></td></tr></table></figure>
+<p>运行结果如下</p>
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">class</span> <span class="string">'__main__.Test'</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>继承时，传入的是哪个实例，就那个传入的实例，而不是指定义了self的类的实例。</strong></p>
+<p>先看代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Parent</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pprt</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Child</span><span class="params">(Parent)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cprt</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(self)</span><br><span class="line">c = Child()</span><br><span class="line">c.cprt()  <span class="comment"># &lt;__main__.Child object at 0x00E289F0&gt;</span></span><br><span class="line">c.pprt()  <span class="comment"># &lt;__main__.Child object at 0x00E289F0&gt;</span></span><br><span class="line">p = Parent()</span><br><span class="line">p.pprt()  <span class="comment"># &lt;__main__.Parent object at 0x00E28B50&gt;</span></span><br></pre></td></tr></table></figure>
+<p>从上边的代码可以看出<code>c.cprt() 和 c.pprt()</code> 运行结构一样：<br>运行<code>c.cprt()</code>时应该没有理解问题，指的是Child类的实例。<br>但是在运行<code>c.pprt()</code>时，等同于<code>Child.pprt(c)</code>，所以self指的依然是Child类的实例，由于self中没有定义<code>pprt()</code>方法，所以沿着<strong>继承树</strong>往上找，发现在父类Parent中定义了<code>pprt()</code>方法，所以就会成功调用。</p>
+<p><strong>在描述符类中，self指的是描述符类的实例</strong></p>
+<p>不太容易理解，先看实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Desc</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, ins, cls)</span>:</span></span><br><span class="line">        print(<span class="string">'self in Desc: %s '</span> % self )</span><br><span class="line">        print(self, ins, cls)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span></span><br><span class="line">    x = Desc()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prt</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'self in Test: %s'</span> % self)</span><br><span class="line">t = Test()</span><br><span class="line">print(<span class="string">"t.prt()输出结果"</span>+<span class="string">"-"</span>*<span class="number">50</span>)</span><br><span class="line">t.prt()</span><br><span class="line">print(<span class="string">"t.x输出结果"</span>+<span class="string">"-"</span>*<span class="number">50</span>)</span><br><span class="line">t.x</span><br><span class="line">print(<span class="string">"Test.x输出结果"</span>+<span class="string">"-"</span>*<span class="number">50</span>)</span><br><span class="line">Test.x</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">t.prt()输出结果------------------------------------</span><br><span class="line">self <span class="keyword">in</span> Test: &lt;__main__.Test object at <span class="number">0x00ED8B90</span>&gt;</span><br><span class="line">t.x输出结果-----------------------------------------</span><br><span class="line">self <span class="keyword">in</span> Desc: &lt;__main__.Desc object at <span class="number">0x00ED8A90</span>&gt; </span><br><span class="line">&lt;__main__.Desc object at <span class="number">0x00ED8A90</span>&gt; &lt;__main__.Test object at <span class="number">0x00ED8B90</span>&gt; &lt;<span class="class"><span class="keyword">class</span> '<span class="title">__main__</span>.<span class="title">Test</span>'&gt;</span></span><br><span class="line"><span class="class"><span class="title">Test</span>.<span class="title">x</span>输出结果--------------------------------------</span></span><br><span class="line"><span class="class"><span class="title">self</span> <span class="title">in</span> <span class="title">Desc</span>:</span> &lt;__main__.Desc object at <span class="number">0x00ED8A90</span>&gt; </span><br><span class="line">&lt;__main__.Desc object at <span class="number">0x00ED8A90</span>&gt; <span class="keyword">None</span> &lt;<span class="class"><span class="keyword">class</span> '<span class="title">__main__</span>.<span class="title">Test</span>'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为什么在Desc类中定义的self不是应该是调用它的实例t吗？怎么变成了Desc类的实例了呢？<br>注意：此处需要睁大眼睛看清楚了，这里调用的是t.x，也就是说是Test类的实例t的属性x，由于实例t中并没有定义属性x，所以找到了类属性x，而该属性是描述符属性，为Desc类的实例而已，所以此处并没有顶用Test的任何方法。<br>    我们们如果直接通过类来调用属性x也可以得到相同的结果。</p>
+<p><strong>总结</strong></p>
+<ul>
+<li>self在定义时需要定义，但是在调用时会自动传入。</li>
+<li>self的名字并不是规定死的，但是最好还是按照约定是用self</li>
+<li>self总是指调用时的类的实例。</li>
+<li>由 <strong><em>哪一个对象</em></strong> 调用的方法，方法内的self就是<strong><em>哪一个对象的引用</em></strong></li>
+<li>在类封装的方法内部，<code>self</code> 就表示 <strong>当前调用方法的对象自己</strong></li>
+<li>在 <strong>类的外部</strong>，通过 <code>变量名.</code> 访问对象的 <strong>属性和方法</strong></li>
+<li>在 <strong>类封装的方法中</strong>，通过 <code>self.</code> 访问对象的 <strong>属性和方法</strong></li>
+<li><strong>调用方法时</strong>，程序员不需要传递 <code>self</code> 参数</li>
+<li>在方法内部<ul>
+<li>可以通过 <code>self.</code> <strong>访问对象的属性</strong></li>
+<li>也可以通过 <code>self.</code> <strong>调用其他的对象方法</strong></li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/函数/" rel="tag"># 函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/26/批处理/" rel="next" title="批处理">
+                <i class="fa fa-chevron-left"></i> 批处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/06/tcp_ip_2/" rel="prev" title="tcp_ip_2">
+                tcp_ip_2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">潇湘夜雨</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">潇湘夜雨</span>
+
+  
+</div>
+
+
+ 
+  
+  <!-- <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+ -->
+
+<!--
+  <span class="post-meta-divider">|</span> 
+ -->
+
+<!--
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+ -->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
