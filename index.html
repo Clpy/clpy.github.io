@@ -254,6 +254,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/25/装饰器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇湘夜雨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇湘夜雨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/25/装饰器/" itemprop="url">装饰器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T18:57:36+08:00">
+                09-25-2019
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>装饰器，就是通过装饰器函数，来修改原函数的一些功能，使得原函数不需修改</strong></p>
+<h4 id="1-函数核心"><a href="#1-函数核心" class="headerlink" title="1. 函数核心"></a>1. 函数核心</h4><p>在python中，函数是一等公民(first-class citizen),  函数也是对象。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/25/装饰器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/B-树和B+树/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -324,73 +471,17 @@
 
       
         
-          
-            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>B树（B-tree）是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(log n)的时间复杂度运行进行查找、顺序读取、插入和删除的数据结构。</p>
-<p>B树，概括来说是一个节点可以拥有多于2个子节点的二叉查找树。与自平衡二叉查找树不同，B-树为系统最优化<strong>大块数据的读和写操作</strong>。</p>
-<p>B-tree算法减少定位记录时所经历的中间过程，从而加快存取速度。普遍运用在<strong>数据库</strong>和<strong>文件系统</strong>。”</p>
-<p><strong>B+</strong>树是对B树的一种变形树。区别在于，<strong>B+</strong>树的非叶子结点只包含导航信息，不包含实际的值，所有的叶子结点和相连的节点使用链表相连，便于区间查找和遍历。</p>
-<p><u>B树和B+广泛应用于文件存储系统以及数据库系统中。</u>如：</p>
-<ul>
-<li>Windows：HPFS文件系统</li>
-<li>Mac：HFS，HFS+文件系统</li>
-<li>Linux：ResiserFS，XFS，Ext3FS，JFS文件系统</li>
-<li>数据库：ORACLE，MYSQL，SQLSERVER等中</li>
-</ul>
-<h3 id="B-树"><a href="#B-树" class="headerlink" title="B- 树"></a>B- 树</h3><h4 id="定义："><a href="#定义：" class="headerlink" title="定义："></a>定义：</h4><blockquote>
-<p>B树也称B-树,它是一颗多路平衡查找树。</p>
-<p>我们描述一颗B树时需要指定它的阶数，阶数表示了一个结点最多有多少个孩子结点，一般用字母m表示阶数。当m取2时，就是我们常见的二叉搜索树。</p>
-</blockquote>
-<h5 id="M-阶B-树定义"><a href="#M-阶B-树定义" class="headerlink" title="M 阶B 树定义"></a>M 阶B 树定义</h5><ol>
-<li>非叶子节点最多只有 M 个叶子节点</li>
-<li><p>根节点的子节点数 为 [2，M]</p>
-</li>
-<li><p>非根节点的非叶子节点的叶子节点树为[M/2,M]</p>
-</li>
-<li><p>每个节点存放 [  [M/2  -  1],  [M-1] ] 个关键字（向上取整），<em>（根节点最少可以只有一个关键字）</em></p>
-</li>
-<li><p>关键字都按照从小到大的顺序排列</p>
-</li>
-<li>非叶子节点的关键字个数 = 指向子节点的指针个数-1</li>
-<li>所有叶子节点位于同一层 </li>
-</ol>
-<h4 id="B-树的插入"><a href="#B-树的插入" class="headerlink" title="B 树的插入"></a>B 树的插入</h4><ol>
-<li>新插入的节点总是出现在叶子节点。</li>
-<li>根据插入的key值找到叶子节点并插入。</li>
-<li>判断当前节点 key 的个数 是否小于等于 M-1 若满足 则结束 ，不满足进行下一步。</li>
-<li>以节点中间key 为中心分裂为两部分，然后将这个中间的key 插入到父节点当中 ，左子树指向分裂的左半部分 右子树指向分裂后的右半部分，然后将当前结点指向父结点。</li>
-</ol>
-<h4 id="B-树的删除"><a href="#B-树的删除" class="headerlink" title="B 树的删除"></a>B 树的删除</h4><ol>
-<li>删除节点在叶子节点上，且删除后叶子节点满足B树的要求，则删除结束。</li>
-<li><p>删除节点在非叶子节点上，就使用后继key(当前节点的下一个key) 覆盖要删除的key , 然后删除所在子支中的后继key。删除后满足b树要求，结束，否则执行下一步。</p>
-</li>
-<li><p>删除节点key个数 小于[M/2-1] , 则父节点中的key 下移到该节点，兄弟节点中的一个key 上移，删除操作结束。</p>
-</li>
-<li><p>否则，将父节点中的key 下移与当前节点及他的兄弟节点中的key合并，形成一个新的节点。当前节点的指针指向父节点。</p>
-</li>
-</ol>
-<h3 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B+ 树"></a>B+ 树</h3><h4 id="定义：-1"><a href="#定义：-1" class="headerlink" title="定义："></a>定义：</h4><p>与B 树区别在于：</p>
-<p>非叶子节点的子树指针和关键字的个数相同；</p>
-<h4 id="B-树的插入-1"><a href="#B-树的插入-1" class="headerlink" title="B+ 树的插入"></a>B+ 树的插入</h4><ol>
-<li>若为空树， 创建一个叶子节点，插入记录，本次插入操作结束</li>
-<li>针对叶子节点，根据key值找到叶子节点，向这个叶子节点插入记录。若当前key个数小于等于 M-1 ，则插入结束。否则将这个叶子节点分裂成左右两个叶子节点，左叶子节点包含前M/2 个记录，右节点包含剩下的记录，将第  M/(2+1)   个记录的 key 进位到父结点中（父节点一定是索引类型节点），进位到父节点的key左孩子指针指向左结点，右孩子指针指向右结点，将当前结点的指针指向父节点。</li>
-<li>针对索引类型节点：若当前节点的key 个数 ≤ (M-1) 则插入结束。否则，将这个索引类型结点分裂成两个索引结点，左索引结点包含前 (m-1)/2 个key，右结点包含 m-(m-1)/2 个key，将第m/2个key进位到父结点中，进位到父结点的key左孩子指向左结点, 进位到父结点的key右孩子指向右结点。将当前结点的指针指向父结点，然后重复第3步</li>
-</ol>
-<h4 id="B-树的删除-1"><a href="#B-树的删除-1" class="headerlink" title="B+ 树的删除"></a>B+ 树的删除</h4><p>  如果叶子结点中没有相应的key，则删除失败。否则执行下面的步骤</p>
-<ol>
-<li>删除叶子结点中对应的key。删除后若结点的key的个数大于等于Math.ceil(m-1)/2 – 1，删除操作结束,否则执行第2步。</li>
-<li>若兄弟结点key有富余（大于Math.ceil(m-1)/2 – 1），向兄弟结点借一个记录，同时用借到的key替换父结（指当前结点和兄弟结点共同的父结点）点中的key，删除结束。否则执行第3步。</li>
-<li>若兄弟结点中没有富余的key,则当前结点和兄弟结点合并成一个新的叶子结点，并删除父结点中的key（父结点中的这个key两边的孩子指针就变成了一个指针，正好指向这个新的叶子结点），将当前结点指向父结点（必为索引结点），执行第4步（第4步以后的操作和B树就完全一样了，主要是为了更新索引结点）。</li>
-<li>若索引结点的key的个数大于等于Math.ceil(m-1)/2 – 1，则删除操作结束。否则执行第5步</li>
-<li>若兄弟结点有富余，父结点key下移，兄弟结点key上移，删除结束。否则执行第6步</li>
-<li>当前结点和兄弟结点及父结点下移key合并成一个新的结点。将当前结点指向父结点，重复第4步。</li>
-<li>注意，通过B+树的删除操作后，索引结点中存在的key，不一定在叶子结点中存在对应的记录。</li>
-</ol>
-<p><a href="https://www.cnblogs.com/nullzx/p/8729425.html" target="_blank" rel="noopener">参考链接</a></p>
-
-          
+          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>B树（B-tree）是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(log n)的时间复杂度运行进行查找、顺序读取、插入和删除的数据结构。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/21/B-树和B+树/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
-    </div>
+    </p></div>
     
     
     
@@ -1622,152 +1713,6 @@ empty() -- 返回队列是否为空。
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/04/python-对python中的self的理解/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇湘夜雨">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇湘夜雨">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/04/python-对python中的self的理解/" itemprop="url">对python中的self的理解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-04T16:38:11+08:00">
-                03-04-2019
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>编写类时，每个函数参数第一个参数都是self，调用时又不需要<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/04/python-对python中的self的理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1818,7 +1763,7 @@ empty() -- 返回队列是否为空。
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
