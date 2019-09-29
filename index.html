@@ -162,7 +162,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">知其然，知其所以然</p>
+        <p class="site-subtitle">师傅领进门, 修行在个人</p>
       
   </div>
 
@@ -240,6 +240,154 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/25/迭代器和生成器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="潇湘夜雨">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="潇湘夜雨">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/25/迭代器和生成器/" itemprop="url">迭代器和生成器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-25T19:11:06+08:00">
+                09-25-2019
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="容器、可迭代对象和迭代器"><a href="#容器、可迭代对象和迭代器" class="headerlink" title="容器、可迭代对象和迭代器"></a>容器、可迭代对象和迭代器</h4><p>容器很好理解，在python中一切皆对象，对象的抽象就是类，而对象的集合就是容器。<br><strong>列表 : [,] ；元组：( ,) ; 字典: {0:0,} ; 集合 ( ) 都是容器</strong>。对于容器，可以想象成多个元素在一起的单元；而不同容器的区别，正是内部数据结构的实现方法。然后就可以针对不同场景，选择不同时间和空间复杂度的容器。</p>
+<p><strong>所有的容器都是可迭代的(iterable)</strong>。这里的迭代，和枚举不完全一样。迭代可以想象成是<br>你去买苹果，卖家并不告诉你他又多少库存。这样每次你都需要告诉卖家，你要一个苹果，然后卖家采取行为：要么给你一个苹果；要么告诉你，苹果已经卖完了。你并不需要知道，卖家在仓库是怎么摆放苹果的。</p>
+<p>​        严格来说<strong>迭代器（iterator）</strong>提供了 一个next 的方法。调用这个方法后，你要么得到这个容器的下一个对象，要么得到一个 Stoplteration 的错误（苹果卖完了）。你不需要像列表一样指定元素的索引，因为字典和集合这样的容器并没有索引一说。比如，字典采用哈希表实现，那么你只需要知道，next 函数可以不重复不遗漏地一个一个拿到所有的元素即可。</p>
+<p> 而可迭代对象，通过iter() 函数返回一个迭代器，再通过next() 函数就可以实现遍历。for in 语句将这个过程隐式化，所以你只需要知道他大概做了什么就行了。</p>
+<p>如何判断一个对象是否可迭代。（还有另一种方法， 是 isinstance(obj. lterable)）。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_iterable</span><span class="params">(param)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>: </span><br><span class="line">        iter(param) </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">except</span> TypeError:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">params = [</span><br><span class="line">    <span class="number">1234</span>,</span><br><span class="line">    <span class="string">'1234'</span>,</span><br><span class="line">    [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">    set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]),</span><br><span class="line">    &#123;<span class="number">1</span>:<span class="number">1</span>, <span class="number">2</span>:<span class="number">2</span>, <span class="number">3</span>:<span class="number">3</span>, <span class="number">4</span>:<span class="number">4</span>&#125;,</span><br><span class="line">    (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">]</span><br><span class="line">    </span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> params:</span><br><span class="line">    print(<span class="string">'&#123;&#125; is iterable? &#123;&#125;'</span>.format(param, is_iterable(param)))</span><br><span class="line"></span><br><span class="line"><span class="comment">########## 输出 ##########</span></span><br><span class="line"></span><br><span class="line">1234 is iterable? False</span><br><span class="line">1234 is iterable? True</span><br><span class="line">[1, 2, 3, 4] is iterable? True</span><br><span class="line">&#123;1, 2, 3, 4&#125; is iterable? True</span><br><span class="line">&#123;1: 1, 2: 2, 3: 3, 4: 4&#125; is iterable? True</span><br><span class="line">(1, 2, 3, 4) is iterable? True</span><br></pre></td></tr></table></figure>
+<h4 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h4><p><strong>生成器是懒人版本的迭代器</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1567,152 +1715,6 @@ empty() -- 返回队列是否为空。
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/tcp_ip_2/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="潇湘夜雨">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="潇湘夜雨">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/06/tcp_ip_2/" itemprop="url">tcp_ip_2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-06T10:16:17+08:00">
-                03-06-2019
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
-                    <span itemprop="name">计算机网络</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="socket简介"><a href="#socket简介" class="headerlink" title="socket简介"></a>socket简介
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/06/tcp_ip_2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </h4></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1763,7 +1765,7 @@ empty() -- 返回队列是否为空。
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1785,7 +1787,7 @@ empty() -- 返回队列是否为空。
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

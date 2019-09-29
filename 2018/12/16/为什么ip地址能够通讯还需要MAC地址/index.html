@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;长话短说，理由有三点。">
+<meta name="description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;理由有三点。">
 <meta name="keywords" content="网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为什么ip地址能够通讯还需要MAC地址">
 <meta property="og:url" content="http://yoursite.com/2018/12/16/为什么ip地址能够通讯还需要MAC地址/index.html">
 <meta property="og:site_name" content="潇湘夜雨">
-<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;长话短说，理由有三点。">
+<meta property="og:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;理由有三点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-23T07:57:17.326Z">
+<meta property="og:updated_time" content="2019-09-25T11:22:25.838Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为什么ip地址能够通讯还需要MAC地址">
-<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;长话短说，理由有三点。">
+<meta name="twitter:description" content="&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;理由有三点。">
 
 
 
@@ -166,7 +166,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">知其然，知其所以然</p>
+        <p class="site-subtitle">师傅领进门, 修行在个人</p>
       
   </div>
 
@@ -347,7 +347,7 @@
       
 
       
-        <p>&ensp;&ensp;&ensp;&ensp;长话短说，理由有三点。<a id="more"></a><br>&ensp;&ensp;&ensp;&ensp;一. 整体与局部信息传递时候，需要知道的其实是两个地址：终点地址（Final destination address）下一跳的地址（Next hop address）IP地址本质上是终点地址，它在跳过路由器（hop）的时候不会改变，而MAC地址则是下一跳的地址，每跳过一次路由器都会改变。这就是为什么还要用MAC地址的原因之一，它起到了记录下一跳的信息的作用。注：一般来说IP地址经过路由器是不变的，不过NAT（Network address translation）例外，这也是有些人反对NAT而支持IPV6的原因之一。<br>&ensp;&ensp;&ensp;&ensp;二. 分层实现如果在IP包头（header）中增加了”下一跳IP地址“这个字段，在逻辑上来说，如果IP地址够用，交换机也支持根据IP地址转发（现在的二层交换机不支持这样做），其实MAC地址并不是必要的。但用MAC地址和IP地址两个地址，用于分别表示物理地址和逻辑地址是有好处的。这样分层可以使网络层与链路层的协议更灵活地替换，网络层不一定非要用『IP』协议，链路层也不一定非用『以太网』协议。这就像OSI七层模型，TCP/IP五层模型其实也不是必要的，用双层模型甚至单层模型实现网络也不是不可以的，只是那样做很蛋疼罢了。<br>&ensp;&ensp;&ensp;&ensp;三. 早期的『以太网』实现早期的以太网只有集线器（hub），没有交换机（switch），所以发出去的包能被以太网内的所有机器监听到，因此要附带上MAC地址，每个机器只需要接受与自己MAC地址相匹配的包。</p>
+        <p>&ensp;&ensp;&ensp;&ensp;理由有三点。<a id="more"></a><br>&ensp;&ensp;&ensp;&ensp;一. 整体与局部信息传递时候，需要知道的其实是两个地址：终点地址（Final destination address）下一跳的地址（Next hop address）IP地址本质上是终点地址，它在跳过路由器（hop）的时候不会改变，而MAC地址则是下一跳的地址，每跳过一次路由器都会改变。这就是为什么还要用MAC地址的原因之一，它起到了记录下一跳的信息的作用。注：一般来说IP地址经过路由器是不变的，不过NAT（Network address translation）例外，这也是有些人反对NAT而支持IPV6的原因之一。<br>&ensp;&ensp;&ensp;&ensp;二. 分层实现如果在IP包头（header）中增加了”下一跳IP地址“这个字段，在逻辑上来说，如果IP地址够用，交换机也支持根据IP地址转发（现在的二层交换机不支持这样做），其实MAC地址并不是必要的。但用MAC地址和IP地址两个地址，用于分别表示物理地址和逻辑地址是有好处的。这样分层可以使网络层与链路层的协议更灵活地替换，网络层不一定非要用『IP』协议，链路层也不一定非用『以太网』协议。这就像OSI七层模型，TCP/IP五层模型其实也不是必要的，用双层模型甚至单层模型实现网络也不是不可以的，只是那样做很蛋疼罢了。<br>&ensp;&ensp;&ensp;&ensp;三. 早期的『以太网』实现早期的以太网只有集线器（hub），没有交换机（switch），所以发出去的包能被以太网内的所有机器监听到，因此要附带上MAC地址，每个机器只需要接受与自己MAC地址相匹配的包。</p>
 <p>&ensp;&ensp;&ensp;&ensp;IP地址是有限的，每一台计算机都分配一个可以直接联网的固定的IP（你每次联网可能你的IP都在变化）的话，ip地址不够用。相反，MAC地址全球固定而且唯一的，有了MAC地址就能准确的找到你的计算机。就好比手机号和身份证号，手机号可以换，而且你换了手机号，我可能就找不到你了，但是你的身份证号不会变，有了它就一定能找到你。而且，如果IP层抢了第二层的饭碗，你就不得不考虑第二层的很多东西了，这就让IP层的实现变得十分困难，这就不符合分层简化的思想。</p>
 <p>&ensp;&ensp;&ensp;&ensp;来源链接：<a href="https://www.zhihu.com/question/21546408/answer/28155896" target="_blank" rel="noopener">https://www.zhihu.com/question/21546408/answer/28155896</a></p>
 
@@ -460,7 +460,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -482,7 +482,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
